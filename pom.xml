@@ -1,0 +1,22 @@
+<!-- build with
+mvn verify -Didempiere.target=org.globalqss.idempiere.LCOFE.p2.targetplatform
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.idempiere</groupId>
+	<version>8.2.0-SNAPSHOT</version>
+	<artifactId>globalqss-idempiere-lcofe</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>org.globalqss.idempiere.LCO.electronicinvoice</module>
+		<module>org.globalqss.fedian.client.api</module>
+		<module>org.globalqss.fedian.idempiere.webservices</module>
+		<module>org.globalqss.ws.soap.fe.dian</module>
+		<module>org.globalqss.saml.common.fake</module>
+		<module>org.globalqss.idempiere.LCOFE-feature</module>
+		<module>org.globalqss.idempiere.LCOFE.p2.targetplatform</module>
+		<module>org.globalqss.idempiere.LCOFE.p2.site</module>
+	</modules>
+</project>
