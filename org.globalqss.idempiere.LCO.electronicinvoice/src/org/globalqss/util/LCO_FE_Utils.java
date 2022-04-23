@@ -30,6 +30,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,7 +54,6 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.apache.commons.io.FileUtils;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttachmentEntry;
 import org.compiere.model.MClient;
@@ -793,7 +795,7 @@ public class LCO_FE_Utils {
 	        (new File(output_Directory)).mkdirs();
 	        file_response = output_Directory + File.separator + file.substring(file.lastIndexOf(File.separator) + 1, file.lastIndexOf(File.separator) + 25) + "_response" + "." + LCO_FE_Utils.RESOURCE_XML;
 	        file_response = file_response.replace("ws_", "face_");
-	        FileUtils.copyFile(new File(file), new File(file_response));
+	        Files.copy(Paths.get(file), Paths.get(file_response), StandardCopyOption.REPLACE_EXISTING);
 	        if (auth.isProcessed())	// TODO Reviewme
 	        	LCO_FE_Utils.attachFile(auth.getCtx(), auth.get_TrxName(), auth.getLCO_FE_Authorization_ID(), file_response, LCO_FE_Utils.RESOURCE_XML);
 	        auth.saveEx();

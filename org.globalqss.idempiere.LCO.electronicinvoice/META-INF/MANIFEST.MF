@@ -18,7 +18,6 @@ Require-Bundle: org.adempiere.base;bundle-version="8.2.0",
  jakarta.annotation-api;bundle-version="1.3.5",
  jakarta.xml.soap-api;bundle-version="1.4.1",
  com.sun.xml.messaging.saaj.impl;bundle-version="1.5.1",
- org.apache.commons.io,
  org.globalqss.fedian.client.api;bundle-version="8.2.0",
  org.globalqss.ws.soap.fe.dian
 Export-Package: org.globalqss.model,
