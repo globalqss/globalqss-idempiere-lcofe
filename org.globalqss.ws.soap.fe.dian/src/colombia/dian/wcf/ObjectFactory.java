@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 import org.datacontract.schemas._2004._07.dianresponse.ArrayOfDianResponse;
 import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
-import org.datacontract.schemas._2004._07.eventresponse.ArrayOfEventResponse;
+import org.datacontract.schemas._2004._07.docidentifierwitheventsresponse.DocIdentifierWithEventsResponse;
 import org.datacontract.schemas._2004._07.eventresponse.EventResponse;
 import org.datacontract.schemas._2004._07.exchangeemailresponse.ExchangeEmailResponse;
 import org.datacontract.schemas._2004._07.numberrangeresponselist.NumberRangeResponseList;
@@ -35,6 +35,7 @@ public class ObjectFactory {
     private final static QName _GetStatusTrackId_QNAME = new QName("http://wcf.dian.colombia", "trackId");
     private final static QName _GetStatusResponseGetStatusResult_QNAME = new QName("http://wcf.dian.colombia", "GetStatusResult");
     private final static QName _GetStatusZipResponseGetStatusZipResult_QNAME = new QName("http://wcf.dian.colombia", "GetStatusZipResult");
+    private final static QName _GetStatusEventResponseGetStatusEventResult_QNAME = new QName("http://wcf.dian.colombia", "GetStatusEventResult");
     private final static QName _SendBillAsyncFileName_QNAME = new QName("http://wcf.dian.colombia", "fileName");
     private final static QName _SendBillAsyncContentFile_QNAME = new QName("http://wcf.dian.colombia", "contentFile");
     private final static QName _SendBillAsyncResponseSendBillAsyncResult_QNAME = new QName("http://wcf.dian.colombia", "SendBillAsyncResult");
@@ -43,11 +44,15 @@ public class ObjectFactory {
     private final static QName _SendBillSyncResponseSendBillSyncResult_QNAME = new QName("http://wcf.dian.colombia", "SendBillSyncResult");
     private final static QName _SendBillAttachmentAsyncResponseSendBillAttachmentAsyncResult_QNAME = new QName("http://wcf.dian.colombia", "SendBillAttachmentAsyncResult");
     private final static QName _SendEventUpdateStatusResponseSendEventUpdateStatusResult_QNAME = new QName("http://wcf.dian.colombia", "SendEventUpdateStatusResult");
+    private final static QName _SendNominaSyncResponseSendNominaSyncResult_QNAME = new QName("http://wcf.dian.colombia", "SendNominaSyncResult");
     private final static QName _GetNumberingRangeAccountCode_QNAME = new QName("http://wcf.dian.colombia", "accountCode");
     private final static QName _GetNumberingRangeAccountCodeT_QNAME = new QName("http://wcf.dian.colombia", "accountCodeT");
     private final static QName _GetNumberingRangeSoftwareCode_QNAME = new QName("http://wcf.dian.colombia", "softwareCode");
     private final static QName _GetNumberingRangeResponseGetNumberingRangeResult_QNAME = new QName("http://wcf.dian.colombia", "GetNumberingRangeResult");
     private final static QName _GetXmlByDocumentKeyResponseGetXmlByDocumentKeyResult_QNAME = new QName("http://wcf.dian.colombia", "GetXmlByDocumentKeyResult");
+    private final static QName _GetDocIdentifierWithEventsContributorCode_QNAME = new QName("http://wcf.dian.colombia", "contributorCode");
+    private final static QName _GetDocIdentifierWithEventsDateNumber_QNAME = new QName("http://wcf.dian.colombia", "dateNumber");
+    private final static QName _GetDocIdentifierWithEventsResponseGetDocIdentifierWithEventsResult_QNAME = new QName("http://wcf.dian.colombia", "GetDocIdentifierWithEventsResult");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: colombia.dian.wcf
@@ -102,6 +107,22 @@ public class ObjectFactory {
      */
     public GetStatusZipResponse createGetStatusZipResponse() {
         return new GetStatusZipResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetStatusEvent }
+     * 
+     */
+    public GetStatusEvent createGetStatusEvent() {
+        return new GetStatusEvent();
+    }
+
+    /**
+     * Create an instance of {@link GetStatusEventResponse }
+     * 
+     */
+    public GetStatusEventResponse createGetStatusEventResponse() {
+        return new GetStatusEventResponse();
     }
 
     /**
@@ -185,6 +206,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link SendNominaSync }
+     * 
+     */
+    public SendNominaSync createSendNominaSync() {
+        return new SendNominaSync();
+    }
+
+    /**
+     * Create an instance of {@link SendNominaSyncResponse }
+     * 
+     */
+    public SendNominaSyncResponse createSendNominaSyncResponse() {
+        return new SendNominaSyncResponse();
+    }
+
+    /**
      * Create an instance of {@link GetNumberingRange }
      * 
      */
@@ -214,6 +251,22 @@ public class ObjectFactory {
      */
     public GetXmlByDocumentKeyResponse createGetXmlByDocumentKeyResponse() {
         return new GetXmlByDocumentKeyResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocIdentifierWithEvents }
+     * 
+     */
+    public GetDocIdentifierWithEvents createGetDocIdentifierWithEvents() {
+        return new GetDocIdentifierWithEvents();
+    }
+
+    /**
+     * Create an instance of {@link GetDocIdentifierWithEventsResponse }
+     * 
+     */
+    public GetDocIdentifierWithEventsResponse createGetDocIdentifierWithEventsResponse() {
+        return new GetDocIdentifierWithEventsResponse();
     }
 
     /**
@@ -279,6 +332,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "GetStatusZipResult", scope = GetStatusZipResponse.class)
     public JAXBElement<ArrayOfDianResponse> createGetStatusZipResponseGetStatusZipResult(ArrayOfDianResponse value) {
         return new JAXBElement<ArrayOfDianResponse>(_GetStatusZipResponseGetStatusZipResult_QNAME, ArrayOfDianResponse.class, GetStatusZipResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "trackId", scope = GetStatusEvent.class)
+    public JAXBElement<String> createGetStatusEventTrackId(String value) {
+        return new JAXBElement<String>(_GetStatusTrackId_QNAME, String.class, GetStatusEvent.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "GetStatusEventResult", scope = GetStatusEventResponse.class)
+    public JAXBElement<DianResponse> createGetStatusEventResponseGetStatusEventResult(DianResponse value) {
+        return new JAXBElement<DianResponse>(_GetStatusEventResponseGetStatusEventResult_QNAME, DianResponse.class, GetStatusEventResponse.class, value);
     }
 
     /**
@@ -464,16 +543,42 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfEventResponse }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link ArrayOfEventResponse }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
      */
     @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "SendEventUpdateStatusResult", scope = SendEventUpdateStatusResponse.class)
-    public JAXBElement<ArrayOfEventResponse> createSendEventUpdateStatusResponseSendEventUpdateStatusResult(ArrayOfEventResponse value) {
-        return new JAXBElement<ArrayOfEventResponse>(_SendEventUpdateStatusResponseSendEventUpdateStatusResult_QNAME, ArrayOfEventResponse.class, SendEventUpdateStatusResponse.class, value);
+    public JAXBElement<DianResponse> createSendEventUpdateStatusResponseSendEventUpdateStatusResult(DianResponse value) {
+        return new JAXBElement<DianResponse>(_SendEventUpdateStatusResponseSendEventUpdateStatusResult_QNAME, DianResponse.class, SendEventUpdateStatusResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "contentFile", scope = SendNominaSync.class)
+    public JAXBElement<byte[]> createSendNominaSyncContentFile(byte[] value) {
+        return new JAXBElement<byte[]>(_SendBillAsyncContentFile_QNAME, byte[].class, SendNominaSync.class, ((byte[]) value));
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "SendNominaSyncResult", scope = SendNominaSyncResponse.class)
+    public JAXBElement<DianResponse> createSendNominaSyncResponseSendNominaSyncResult(DianResponse value) {
+        return new JAXBElement<DianResponse>(_SendNominaSyncResponseSendNominaSyncResult_QNAME, DianResponse.class, SendNominaSyncResponse.class, value);
     }
 
     /**
@@ -552,6 +657,45 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "GetXmlByDocumentKeyResult", scope = GetXmlByDocumentKeyResponse.class)
     public JAXBElement<EventResponse> createGetXmlByDocumentKeyResponseGetXmlByDocumentKeyResult(EventResponse value) {
         return new JAXBElement<EventResponse>(_GetXmlByDocumentKeyResponseGetXmlByDocumentKeyResult_QNAME, EventResponse.class, GetXmlByDocumentKeyResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "contributorCode", scope = GetDocIdentifierWithEvents.class)
+    public JAXBElement<String> createGetDocIdentifierWithEventsContributorCode(String value) {
+        return new JAXBElement<String>(_GetDocIdentifierWithEventsContributorCode_QNAME, String.class, GetDocIdentifierWithEvents.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "dateNumber", scope = GetDocIdentifierWithEvents.class)
+    public JAXBElement<String> createGetDocIdentifierWithEventsDateNumber(String value) {
+        return new JAXBElement<String>(_GetDocIdentifierWithEventsDateNumber_QNAME, String.class, GetDocIdentifierWithEvents.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DocIdentifierWithEventsResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link DocIdentifierWithEventsResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://wcf.dian.colombia", name = "GetDocIdentifierWithEventsResult", scope = GetDocIdentifierWithEventsResponse.class)
+    public JAXBElement<DocIdentifierWithEventsResponse> createGetDocIdentifierWithEventsResponseGetDocIdentifierWithEventsResult(DocIdentifierWithEventsResponse value) {
+        return new JAXBElement<DocIdentifierWithEventsResponse>(_GetDocIdentifierWithEventsResponseGetDocIdentifierWithEventsResult_QNAME, DocIdentifierWithEventsResponse.class, GetDocIdentifierWithEventsResponse.class, value);
     }
 
 }

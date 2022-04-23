@@ -24,7 +24,6 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ArrayOfEventResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/EventResponse", "ArrayOfEventResponse");
     private final static QName _EventResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/EventResponse", "EventResponse");
     private final static QName _EventResponseCode_QNAME = new QName("http://schemas.datacontract.org/2004/07/EventResponse", "Code");
     private final static QName _EventResponseMessage_QNAME = new QName("http://schemas.datacontract.org/2004/07/EventResponse", "Message");
@@ -38,32 +37,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ArrayOfEventResponse }
-     * 
-     */
-    public ArrayOfEventResponse createArrayOfEventResponse() {
-        return new ArrayOfEventResponse();
-    }
-
-    /**
      * Create an instance of {@link EventResponse }
      * 
      */
     public EventResponse createEventResponse() {
         return new EventResponse();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfEventResponse }{@code >}
-     * 
-     * @param value
-     *     Java instance representing xml element's value.
-     * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link ArrayOfEventResponse }{@code >}
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/EventResponse", name = "ArrayOfEventResponse")
-    public JAXBElement<ArrayOfEventResponse> createArrayOfEventResponse(ArrayOfEventResponse value) {
-        return new JAXBElement<ArrayOfEventResponse>(_ArrayOfEventResponse_QNAME, ArrayOfEventResponse.class, null, value);
     }
 
     /**

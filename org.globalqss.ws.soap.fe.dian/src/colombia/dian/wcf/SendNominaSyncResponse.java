@@ -20,7 +20,7 @@ import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="SendEventUpdateStatusResult" type="{http://schemas.datacontract.org/2004/07/DianResponse}DianResponse" minOccurs="0"/&gt;
+ *         &lt;element name="SendNominaSyncResult" type="{http://schemas.datacontract.org/2004/07/DianResponse}DianResponse" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -31,36 +31,36 @@ import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "sendEventUpdateStatusResult"
+    "sendNominaSyncResult"
 })
-@XmlRootElement(name = "SendEventUpdateStatusResponse")
-public class SendEventUpdateStatusResponse {
+@XmlRootElement(name = "SendNominaSyncResponse")
+public class SendNominaSyncResponse {
 
-    @XmlElementRef(name = "SendEventUpdateStatusResult", namespace = "http://wcf.dian.colombia", type = JAXBElement.class, required = false)
-    protected JAXBElement<DianResponse> sendEventUpdateStatusResult;
+    @XmlElementRef(name = "SendNominaSyncResult", namespace = "http://wcf.dian.colombia", type = JAXBElement.class, required = false)
+    protected JAXBElement<DianResponse> sendNominaSyncResult;
 
     /**
-     * Gets the value of the sendEventUpdateStatusResult property.
+     * Gets the value of the sendNominaSyncResult property.
      * 
      * @return
      *     possible object is
      *     {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
      *     
      */
-    public JAXBElement<DianResponse> getSendEventUpdateStatusResult() {
-        return sendEventUpdateStatusResult;
+    public JAXBElement<DianResponse> getSendNominaSyncResult() {
+        return sendNominaSyncResult;
     }
 
     /**
-     * Sets the value of the sendEventUpdateStatusResult property.
+     * Sets the value of the sendNominaSyncResult property.
      * 
      * @param value
      *     allowed object is
      *     {@link JAXBElement }{@code <}{@link DianResponse }{@code >}
      *     
      */
-    public void setSendEventUpdateStatusResult(JAXBElement<DianResponse> value) {
-        this.sendEventUpdateStatusResult = value;
+    public void setSendNominaSyncResult(JAXBElement<DianResponse> value) {
+        this.sendNominaSyncResult = value;
     }
 
 }
