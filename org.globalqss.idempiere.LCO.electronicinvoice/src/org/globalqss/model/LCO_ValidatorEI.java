@@ -905,7 +905,7 @@ public class LCO_ValidatorEI extends AbstractEventHandler
 				BigDecimal Consecutivo = (BigDecimal) row.get(0);
 				BigDecimal qtyinvoiced = (BigDecimal) row.get(2);
 				BigDecimal CostoTotal = (BigDecimal) row.get(4);
-				String pcodigo = (String) row.get(13);
+				// String pcodigo = (String) row.get(13);
 				String TipoImpuesto = (String) row.get(15);
 				String NombreImpuesto = (String) row.get(21);
 				String TipoProducto = (String) row.get(22);

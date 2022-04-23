@@ -1167,7 +1167,7 @@ public class DIAN21_FE_UtilsXML {
 						String ildescription = (String) row.get(10);
 						//String name = (String) row.get(11);
 						BigDecimal Descuento = (BigDecimal) row.get(12);
-						String pcodigo = (String) row.get(13);
+						// String pcodigo = (String) row.get(13);
 						boolean EsRetencion = (row.get(14) != null && ((String)row.get(14)).equals("Y")) ? true : false;
 						String TipoImpuesto = (String) row.get(15);
 						BigDecimal ImporteImpuesto = (BigDecimal) row.get(16);
@@ -3746,7 +3746,7 @@ public class DIAN21_FE_UtilsXML {
 					for (List<Object> row : rows) {
 						BigDecimal Consecutivo = new BigDecimal(i);
 						i++;
-						boolean EsGratis = (row.get(1) != null && ((String)row.get(1)).equals("true")) ? true : false;
+						// boolean EsGratis = (row.get(1) != null && ((String)row.get(1)).equals("true")) ? true : false;
 						BigDecimal qtyinvoiced = (BigDecimal) row.get(2);
 						String UnidadMedida = (String) row.get(3);
 						BigDecimal CostoTotal = (BigDecimal) row.get(4);
@@ -3758,7 +3758,7 @@ public class DIAN21_FE_UtilsXML {
 						String ildescription = (String) row.get(10);
 						//String name = (String) row.get(11);
 						BigDecimal Descuento = (BigDecimal) row.get(12);
-						String pcodigo = (String) row.get(13);
+						// String pcodigo = (String) row.get(13);
 						boolean EsRetencion = (row.get(14) != null && ((String)row.get(14)).equals("Y")) ? true : false;
 						String TipoImpuesto = (String) row.get(15);
 						BigDecimal ImporteImpuesto = (BigDecimal) row.get(16);
