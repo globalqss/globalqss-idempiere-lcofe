@@ -347,7 +347,7 @@
                 <unit id="org.globalqss.idempiere.LCO.withholdings" version="8.2.0.202204231553"/>
                 <unit id="org.globalqss.idempiere.LCO.invoicenumbercontrol" version="8.2.0.202204231553"/>
                 <unit id="org.globalqss.idempiere.LCO.detailednames" version="8.2.0.202204231553"/>
-		<repository location="https://jenkins.idempiere.org/job/globalqss-iDempiere-LCO82/ws/org.globalqss.idempiere.LCO.p2.site/target/repository"/>
+		<repository location="file:../globalqss-iDempiere-LCO82/org.globalqss.idempiere.LCO.p2.site/target/repository"/>
 	</location>
 	<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 		<repository location="https://raw.githubusercontent.com/hieplq/idempiere.artifact/cxf-3.3.1-service.client/m2p/org.idempiere.webservice.client"/>
