@@ -3018,7 +3018,7 @@ public class DIAN21_FE_UtilsXML {
 	} 	// lcofeinvdr_GovGeneraDebitNoteXML210
 	
 	/**
-	 * Genera XML FV, FE, FC v2.1
+	 * Genera XML DS v2.1
 	 * Prefijo fe desaparece quedando el prefijo propio que maneja el UBL: cac
 	 * @param
 	 * @return msg
@@ -3096,8 +3096,8 @@ public class DIAN21_FE_UtilsXML {
 
 			atts.clear();
 
-			// Emisor = Org
-			// Adquiriente = BPartner
+			// ABS Adquiriente Bienes o Servicios = Org
+			// SNO Sujeto No Obligado = BPartner
 			// Requerido: M-Mandatorio, D-Dependiente, O-Opcional
 			// Tipo: A-Alfabetico, AN-Alfanumrrico, N-Numerico
 			// Long.
@@ -3273,171 +3273,20 @@ public class DIAN21_FE_UtilsXML {
 				mmDoc.endElement("","","cac:BillingReference");
 			}
 			
-			// Informaci\u00f3n ABS Adquiriente Bienes o Servicios
-			atts.clear();
-			mmDoc.startElement("","","cac:AccountingCustomerParty", atts);
-				atts.clear();
-				atts.addAttribute("", "", "schemeAgencyID", "CDATA", "195");
-				// M N 1, Tipo de organización jurídica Tabla 9
-				addHeaderElement(mmDoc, "cbc:AdditionalAccountID", LCO_FE_Utils.cutString(tpte.get_ValueAsString("DianTaxPayerCode"), 1) , atts);
-				atts.clear();
-				mmDoc.startElement("","","cac:Party", atts);
-					// O N 4, código de actividad económica CIIU
-					// addHeaderElement(mmDoc, "cbc:IndustryClasificationCode", ie.getValue().substring(1, 5), atts);	// Fix ZB01
-					mmDoc.startElement("","","cac:PartyIdentification", atts);
-					atts.clear();
-					// M AN 7, Tipo identificaci\u00f3n Tabla 2
-					atts = addGovAttribute21(null, LCO_FE_Utils.cutString(tte.get_ValueAsString("LCO_TaxCodeDian"), 7));
-					// M AF Max 35, No. Identificacion Emisor
-					addHeaderElement(mmDoc, "cbc:ID", bpe.getTaxID().trim(), atts);
-					atts.clear();
-					mmDoc.endElement("","","cac:PartyIdentification");
-					if ( tpte.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_PERSONA_JURIDICA)
-							|| tpte.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_GRAN_CONTRIBUYENTE) ) {
-						mmDoc.startElement("","","cac:PartyName", atts);
-							// D AN 5..450 Nombre comercial del emisor
-							addHeaderElement(mmDoc, "cbc:Name", bpe.getName(), atts);
-						mmDoc.endElement("","","cac:PartyName");
-					}
-					mmDoc.startElement("","","cac:PhysicalLocation", atts);
-						mmDoc.startElement("","","cac:Address", atts);
-							// M N 5 Codigo del municipio
-							addHeaderElement(mmDoc, "cbc:ID", LCO_FE_Utils.cutString(lo.getC_City().getPostal(), 5), atts);
-							// M AN Max 60 Nombre de la ciudad
-							addHeaderElement(mmDoc, "cbc:CityName", lo.getC_City().getName(), atts);
-							// M AN Max 60 Nombre del Departamento
-							addHeaderElement(mmDoc, "cbc:CountrySubentity", lo.getRegionName(), atts);
-							// M N 1..5 Código del Departamento
-							addHeaderElement(mmDoc, "cbc:CountrySubentityCode", LCO_FE_Utils.cutString(lo.getRegion().getDescription(), 2), atts);
-							// X AN Max 40 Municipio (distrito administrativo)
-							// addHeaderElement(mmDoc, "cbc:CitySubdivisionName", lo.getC_City().getName(), atts);
-							mmDoc.startElement("","","cac:AddressLine", atts);
-								// M AN Max 300 Direccion
-								addHeaderElement(mmDoc, "cbc:Line", lo.getAddress1(), atts);
-							mmDoc.endElement("","","cac:AddressLine");
-							mmDoc.startElement("","","cac:Country", atts);
-								// M AN Max 2 Pais Tabla 8
-								addHeaderElement(mmDoc, "cbc:IdentificationCode", lo.getCountry().getCountryCode(), atts);
-								// O A 4..40 Nombre Pais Tabla 8
-								atts.addAttribute("", "", "languageID", "CDATA", LCO_FE_Utils.cutString(Env.getAD_Language(Env.getCtx()), 2));
-								addHeaderElement(mmDoc, "cbc:Name", lo.getCountry().get_Translation("Name"), atts);
-								atts.clear();
-							mmDoc.endElement("","","cac:Country");
-						mmDoc.endElement("","","cac:Address");
-					mmDoc.endElement("","","cac:PhysicalLocation");
-					mmDoc.startElement("","","cac:PartyTaxScheme", atts);
-						// M AF 5..450, Nombre o Razón Social del emisor
-						addHeaderElement(mmDoc, "cbc:RegistrationName", bpe.getName(), atts);
-						atts.clear();
-						atts = addGovAttribute21(bpe.get_ValueAsString("TaxIdDigit"), LCO_FE_Utils.cutString(tte.get_ValueAsString("LCO_TaxCodeDian"), 7));	// TODO Reviewme
-						// M N 5..12, No. Identificacion Emisor
-						addHeaderElement(mmDoc, "cbc:CompanyID", bpe.getTaxID().trim(), atts);
-						atts.clear();
-						{ // BP Info Emisor
-							boolean nobpeinfo = true;
-							String codigosRUT = "";
-							List<List<Object>> rowse = DB.getSQLArrayObjectsEx(bpe.get_TrxName(), LCO_FE_Utils.SQL_BP_INFO, bpe.getC_BPartner_ID());
-							if (rowse != null) {
-								for (List<Object> rowe : rowse) {
-									// String grupoRUT = rowe.get(0).toString();
-									String codigoRUT = rowe.get(1).toString();
-									if (Util.isEmpty(codigoRUT, true)) {
-										nobpeinfo = true;
-										break;
-									}
-									nobpeinfo = false;
-									codigosRUT = codigosRUT + codigoRUT + ";";
-								}
-								atts.clear();
-								atts.addAttribute("", "", "listName", "CDATA", LCO_FE_Utils.cutString(tpte.get_ValueAsString("DianRegimeCode"), 2));
-								// M AN 1 Max 30, Obligaciones del contribuyente
-								addHeaderElement(mmDoc, "cbc:TaxLevelCode", codigosRUT.substring(0, codigosRUT.length()-1), atts);
-								atts.clear();
-	
-							}
-							if (nobpeinfo) {
-								msg = (Msg.translate(Env.getCtx(), "FillMandatory") + " "
-										+ Msg.getElement(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID) + "-"
-										+ Msg.getElement(Env.getCtx(), "LCO_FE_TributaryType_ID"));
-								return "@Error@ @invoice.no@ " + inv.getDocumentNo() + " " + msg;
-							}
-						}
-						// M 1..1 Dirección fiscal del emisor. 
-						mmDoc.startElement("","","cac:RegistrationAddress", atts);
-							// M N 5 Codigo del municipio
-							addHeaderElement(mmDoc, "cbc:ID", LCO_FE_Utils.cutString(lo.getC_City().getPostal(), 5), atts);
-							// M AN Max 60 Nombre de la ciudad
-							addHeaderElement(mmDoc, "cbc:CityName", lo.getC_City().getName(), atts);
-							// M AN Max 60 Nombre del Departamento
-							addHeaderElement(mmDoc, "cbc:CountrySubentity", lo.getRegionName(), atts);
-							// M N 1..5 Código del Departamento
-							addHeaderElement(mmDoc, "cbc:CountrySubentityCode", LCO_FE_Utils.cutString(lo.getRegion().getDescription(), 2), atts);
-							// X AN Max 40 Municipio (distrito administrativo)
-							// addHeaderElement(mmDoc, "cbc:CitySubdivisionName", lo.getC_City().getName(), atts);
-							mmDoc.startElement("","","cac:AddressLine", atts);
-								// M AN Max 300 Direccion
-								addHeaderElement(mmDoc, "cbc:Line", lo.getAddress1(), atts);
-							mmDoc.endElement("","","cac:AddressLine");
-							mmDoc.startElement("","","cac:Country", atts);
-								// M AN Max 2 Pais Tabla 8
-								addHeaderElement(mmDoc, "cbc:IdentificationCode", lo.getCountry().getCountryCode(), atts);
-								// O A 4..40 Nombre Pais Tabla 8
-								atts.addAttribute("", "", "languageID", "CDATA", LCO_FE_Utils.cutString(Env.getAD_Language(Env.getCtx()), 2));
-								addHeaderElement(mmDoc, "cbc:Name", lo.getCountry().get_Translation("Name"), atts);
-								atts.clear();
-							mmDoc.endElement("","","cac:Country");
-						mmDoc.endElement("","","cac:RegistrationAddress");
-						//
-						if (tpte.get_ValueAsString("DianRegimeCode").equals(LCO_FE_Utils.TIPO_REGIMEN_FISCAL_48)) {
-							// M 1 Veces max
-							mmDoc.startElement("","","cac:TaxScheme", atts);
-								// M AF 3..10, Identificador del tributo
-								addHeaderElement(mmDoc, "cbc:ID", LCO_FE_Utils.CODIGO_IVA_01, atts);	// TipoImpuesto
-								// M AF 10..30, Nombre del tributo
-								addHeaderElement(mmDoc, "cbc:Name", "IVA", atts);	// TODO NombreImpuesto
-							mmDoc.endElement("","","cac:TaxScheme");
-						}
-					mmDoc.endElement("","","cac:PartyTaxScheme");
-					mmDoc.startElement("","","cac:PartyLegalEntity", atts);
-						// M AF 5..450, Nombre o Razón Social del emisor
-						addHeaderElement(mmDoc, "cbc:RegistrationName", bpe.getName(), atts);
-						atts.clear();
-						atts = addGovAttribute21(bpe.get_ValueAsString("TaxIdDigit"), LCO_FE_Utils.cutString(tte.get_ValueAsString("LCO_TaxCodeDian"), 7));	// TODO Reviewme
-						// M N 5..12, NIT del emisor
-						addHeaderElement(mmDoc, "cbc:CompanyID", bpe.getTaxID().trim(), atts);
-						atts.clear();
-						mmDoc.startElement("","","cac:CorporateRegistrationScheme", atts);
-							if (! "".equals(m_Prefix))
-								// M N 6, Prefijo de la facturación usada para el punto de venta
-								addHeaderElement(mmDoc, "cbc:ID", m_Prefix, atts);	// TODO reviewme
-								// O N 6, Número de matrícula mercantil (identificador de sucursal: punto de facturación) 
-								// addHeaderElement(mmDoc, "cbc:Name", m_Prefix, atts);	// TODO
-						mmDoc.endElement("","","cac:CorporateRegistrationScheme");
-					mmDoc.endElement("","","cac:PartyLegalEntity");
-					String mailContacto = MSysConfig.getValue("QSSLCO_FE_ReplyToEMail", null, inv.getAD_Client_ID());
-					if (mailContacto != null) {
-						mmDoc.startElement("","","cac:Contact", atts);
-							// O AN Max 250 Correo electrónico  de la persona de contacto.
-							addHeaderElement(mmDoc, "cbc:ElectronicMail", mailContacto, atts);
-						mmDoc.endElement("","","cac:Contact");
-					}
-				mmDoc.endElement("","","cac:Party");
-			mmDoc.endElement("","","cac:AccountingCustomerParty");
-			
-			// Informacion Vendedor
+			// Informacion SNO Sujeto No Obligado – Vendedor / Proveedor de bienes o servicios
 			mmDoc.startElement("","","cac:AccountingSupplierParty", atts);
 				// M N 1, Tipo de persona Tabla 9
 				addHeaderElement(mmDoc, "cbc:AdditionalAccountID", tpta.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_GRAN_CONTRIBUYENTE) ? LCO_FE_Utils.TIPO_PERSONA_JURIDICA : tpta.get_ValueAsString("DianTaxPayerCode"), atts);
 				mmDoc.startElement("","","cac:Party", atts);
-					mmDoc.startElement("","","cac:PartyIdentification", atts);
+					/* mmDoc.startElement("","","cac:PartyIdentification", atts);
 						atts.clear();
 						// M AN 7, Tipo identificaci\u00f3n Tabla 2
 						atts = addGovAttribute21(null, LCO_FE_Utils.cutString(tta.get_ValueAsString("LCO_TaxCodeDian"), 7));
 						// M AF Max 35, No. Identificacion Adquiriente
 						addHeaderElement(mmDoc, "cbc:ID", bp.getTaxID(), atts);
 						atts.clear();
-					mmDoc.endElement("","","cac:PartyIdentification");
-					if ( tpta.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_PERSONA_JURIDICA)
+					mmDoc.endElement("","","cac:PartyIdentification"); */
+					/* if ( tpta.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_PERSONA_JURIDICA)
 							|| tpta.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_GRAN_CONTRIBUYENTE) ) {
 						mmDoc.startElement("","","cac:PartyName", atts);
 							// D AN 5..450 Nombre comercial del adquiriente
@@ -3453,7 +3302,7 @@ public class DIAN21_FE_UtilsXML {
 							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
 									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
 						mmDoc.endElement("","","cac:Person");
-					}
+					} */
 					mmDoc.startElement("","","cac:PhysicalLocation", atts);
 						mmDoc.startElement("","","cac:Address", atts);
 							if (la.getC_City().getPostal() != null)
@@ -3462,6 +3311,8 @@ public class DIAN21_FE_UtilsXML {
 							if (la.getC_City().getName() != null)
 								// M AN Max 60 Nombre de la ciudad
 								addHeaderElement(mmDoc, "cbc:CityName", la.getC_City().getName(), atts);
+							// O AN Max 10 Código postal
+							addHeaderElement(mmDoc, "cbc:PostalZone", la.getPostal() != null ? la.getPostal() : "", atts);
 							if (la.getRegionName() != null)
 								// M AN Max 60 Nombre del Departamento
 								addHeaderElement(mmDoc, "cbc:CountrySubentity", la.getRegionName(), atts);
@@ -3537,7 +3388,7 @@ public class DIAN21_FE_UtilsXML {
 							}
 						}
 					mmDoc.endElement("","","cac:PartyTaxScheme");
-					mmDoc.startElement("","","cac:PartyLegalEntity", atts);
+					/* mmDoc.startElement("","","cac:PartyLegalEntity", atts);
 						// M AF 5..450, Nombre o Razón Social del adquiriente
 						addHeaderElement(mmDoc, "cbc:RegistrationName", bp.getName(), atts);
 						atts.clear();
@@ -3545,26 +3396,179 @@ public class DIAN21_FE_UtilsXML {
 						// M N 5..12, ID del Adquiriente
 						addHeaderElement(mmDoc, "cbc:CompanyID", bp.getTaxID(), atts);
 						atts.clear();
-					mmDoc.endElement("","","cac:PartyLegalEntity");
-					if (ua.getEMail() != null) {
+					mmDoc.endElement("","","cac:PartyLegalEntity"); */
+					/* if (ua.getEMail() != null) {
 						mmDoc.startElement("","","cac:Contact", atts);
 							// O AN Max 250 Correo electrónico  de la persona de contacto.
 							addHeaderElement(mmDoc, "cbc:ElectronicMail", ua.getEMail().trim(), atts);
 						mmDoc.endElement("","","cac:Contact");
-					}
+					} */
 				mmDoc.endElement("","","cac:Party");
 			mmDoc.endElement("","","cac:AccountingSupplierParty");
+			
+			// Informaci\u00f3n ABS Adquiriente Bienes o Servicios
+			atts.clear();
+			mmDoc.startElement("","","cac:AccountingCustomerParty", atts);
+				atts.clear();
+				atts.addAttribute("", "", "schemeAgencyID", "CDATA", "195");
+				// M N 1, Tipo de organización jurídica Tabla 9
+				addHeaderElement(mmDoc, "cbc:AdditionalAccountID", LCO_FE_Utils.cutString(tpte.get_ValueAsString("DianTaxPayerCode"), 1) , atts);
+				atts.clear();
+				mmDoc.startElement("","","cac:Party", atts);
+					// O N 4, código de actividad económica CIIU
+					// addHeaderElement(mmDoc, "cbc:IndustryClasificationCode", ie.getValue().substring(1, 5), atts);	// Fix ZB01
+					mmDoc.startElement("","","cac:PartyIdentification", atts);
+					atts.clear();
+					// M AN 7, Tipo identificaci\u00f3n Tabla 2
+					atts = addGovAttribute21(null, LCO_FE_Utils.cutString(tte.get_ValueAsString("LCO_TaxCodeDian"), 7));
+					// M AF Max 35, No. Identificacion Emisor
+					addHeaderElement(mmDoc, "cbc:ID", bpe.getTaxID().trim(), atts);
+					atts.clear();
+					mmDoc.endElement("","","cac:PartyIdentification");
+					if ( tpte.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_PERSONA_JURIDICA)
+							|| tpte.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_GRAN_CONTRIBUYENTE) ) {
+						mmDoc.startElement("","","cac:PartyName", atts);
+							// D AN 5..450 Nombre comercial del emisor
+							addHeaderElement(mmDoc, "cbc:Name", bpe.getName(), atts);
+						mmDoc.endElement("","","cac:PartyName");
+					}
+					/* mmDoc.startElement("","","cac:PhysicalLocation", atts);
+						mmDoc.startElement("","","cac:Address", atts);
+							// M N 5 Codigo del municipio
+							addHeaderElement(mmDoc, "cbc:ID", LCO_FE_Utils.cutString(lo.getC_City().getPostal(), 5), atts);
+							// M AN Max 60 Nombre de la ciudad
+							addHeaderElement(mmDoc, "cbc:CityName", lo.getC_City().getName(), atts);
+							// O AN Max 10 Código postal
+							addHeaderElement(mmDoc, "cbc:PostalZone", lo.getPostal() != null ? la.getPostal() : "", atts);
+							// M AN Max 60 Nombre del Departamento
+							addHeaderElement(mmDoc, "cbc:CountrySubentity", lo.getRegionName(), atts);
+							// M N 1..5 Código del Departamento
+							addHeaderElement(mmDoc, "cbc:CountrySubentityCode", LCO_FE_Utils.cutString(lo.getRegion().getDescription(), 2), atts);
+							// X AN Max 40 Municipio (distrito administrativo)
+							// addHeaderElement(mmDoc, "cbc:CitySubdivisionName", lo.getC_City().getName(), atts);
+							mmDoc.startElement("","","cac:AddressLine", atts);
+								// M AN Max 300 Direccion
+								addHeaderElement(mmDoc, "cbc:Line", lo.getAddress1(), atts);
+							mmDoc.endElement("","","cac:AddressLine");
+							mmDoc.startElement("","","cac:Country", atts);
+								// M AN Max 2 Pais Tabla 8
+								addHeaderElement(mmDoc, "cbc:IdentificationCode", lo.getCountry().getCountryCode(), atts);
+								// O A 4..40 Nombre Pais Tabla 8
+								atts.addAttribute("", "", "languageID", "CDATA", LCO_FE_Utils.cutString(Env.getAD_Language(Env.getCtx()), 2));
+								addHeaderElement(mmDoc, "cbc:Name", lo.getCountry().get_Translation("Name"), atts);
+								atts.clear();
+							mmDoc.endElement("","","cac:Country");
+						mmDoc.endElement("","","cac:Address");
+					mmDoc.endElement("","","cac:PhysicalLocation"); */
+					mmDoc.startElement("","","cac:PartyTaxScheme", atts);
+						// M AF 5..450, Nombre o Razón Social del emisor
+						addHeaderElement(mmDoc, "cbc:RegistrationName", bpe.getName(), atts);
+						atts.clear();
+						atts = addGovAttribute21(bpe.get_ValueAsString("TaxIdDigit"), LCO_FE_Utils.cutString(tte.get_ValueAsString("LCO_TaxCodeDian"), 7));	// TODO Reviewme
+						// M N 5..12, No. Identificacion Emisor
+						addHeaderElement(mmDoc, "cbc:CompanyID", bpe.getTaxID().trim(), atts);
+						atts.clear();
+						{ // BP Info Emisor
+							boolean nobpeinfo = true;
+							String codigosRUT = "";
+							List<List<Object>> rowse = DB.getSQLArrayObjectsEx(bpe.get_TrxName(), LCO_FE_Utils.SQL_BP_INFO, bpe.getC_BPartner_ID());
+							if (rowse != null) {
+								for (List<Object> rowe : rowse) {
+									// String grupoRUT = rowe.get(0).toString();
+									String codigoRUT = rowe.get(1).toString();
+									if (Util.isEmpty(codigoRUT, true)) {
+										nobpeinfo = true;
+										break;
+									}
+									nobpeinfo = false;
+									codigosRUT = codigosRUT + codigoRUT + ";";
+								}
+								atts.clear();
+								atts.addAttribute("", "", "listName", "CDATA", LCO_FE_Utils.cutString(tpte.get_ValueAsString("DianRegimeCode"), 2));
+								// M AN 1 Max 30, Obligaciones del contribuyente
+								addHeaderElement(mmDoc, "cbc:TaxLevelCode", codigosRUT.substring(0, codigosRUT.length()-1), atts);
+								atts.clear();
+	
+							}
+							if (nobpeinfo) {
+								msg = (Msg.translate(Env.getCtx(), "FillMandatory") + " "
+										+ Msg.getElement(Env.getCtx(), MBPartner.COLUMNNAME_C_BPartner_ID) + "-"
+										+ Msg.getElement(Env.getCtx(), "LCO_FE_TributaryType_ID"));
+								return "@Error@ @invoice.no@ " + inv.getDocumentNo() + " " + msg;
+							}
+						}
+						// M 1..1 Dirección fiscal del emisor. 
+						/* mmDoc.startElement("","","cac:RegistrationAddress", atts);
+							// M N 5 Codigo del municipio
+							addHeaderElement(mmDoc, "cbc:ID", LCO_FE_Utils.cutString(lo.getC_City().getPostal(), 5), atts);
+							// M AN Max 60 Nombre de la ciudad
+							addHeaderElement(mmDoc, "cbc:CityName", lo.getC_City().getName(), atts);
+							// M AN Max 60 Nombre del Departamento
+							addHeaderElement(mmDoc, "cbc:CountrySubentity", lo.getRegionName(), atts);
+							// M N 1..5 Código del Departamento
+							addHeaderElement(mmDoc, "cbc:CountrySubentityCode", LCO_FE_Utils.cutString(lo.getRegion().getDescription(), 2), atts);
+							// X AN Max 40 Municipio (distrito administrativo)
+							// addHeaderElement(mmDoc, "cbc:CitySubdivisionName", lo.getC_City().getName(), atts);
+							mmDoc.startElement("","","cac:AddressLine", atts);
+								// M AN Max 300 Direccion
+								addHeaderElement(mmDoc, "cbc:Line", lo.getAddress1(), atts);
+							mmDoc.endElement("","","cac:AddressLine");
+							mmDoc.startElement("","","cac:Country", atts);
+								// M AN Max 2 Pais Tabla 8
+								addHeaderElement(mmDoc, "cbc:IdentificationCode", lo.getCountry().getCountryCode(), atts);
+								// O A 4..40 Nombre Pais Tabla 8
+								atts.addAttribute("", "", "languageID", "CDATA", LCO_FE_Utils.cutString(Env.getAD_Language(Env.getCtx()), 2));
+								addHeaderElement(mmDoc, "cbc:Name", lo.getCountry().get_Translation("Name"), atts);
+								atts.clear();
+							mmDoc.endElement("","","cac:Country");
+						mmDoc.endElement("","","cac:RegistrationAddress"); */
+						//
+						if (tpte.get_ValueAsString("DianRegimeCode").equals(LCO_FE_Utils.TIPO_REGIMEN_FISCAL_48)) {
+							// M 1 Veces max
+							mmDoc.startElement("","","cac:TaxScheme", atts);
+								// M AF 3..10, Identificador del tributo
+								addHeaderElement(mmDoc, "cbc:ID", LCO_FE_Utils.CODIGO_IVA_01, atts);	// TipoImpuesto
+								// M AF 10..30, Nombre del tributo
+								addHeaderElement(mmDoc, "cbc:Name", "IVA", atts);	// TODO NombreImpuesto
+							mmDoc.endElement("","","cac:TaxScheme");
+						}
+					mmDoc.endElement("","","cac:PartyTaxScheme");
+					/* mmDoc.startElement("","","cac:PartyLegalEntity", atts);
+						// M AF 5..450, Nombre o Razón Social del emisor
+						addHeaderElement(mmDoc, "cbc:RegistrationName", bpe.getName(), atts);
+						atts.clear();
+						atts = addGovAttribute21(bpe.get_ValueAsString("TaxIdDigit"), LCO_FE_Utils.cutString(tte.get_ValueAsString("LCO_TaxCodeDian"), 7));	// TODO Reviewme
+						// M N 5..12, NIT del emisor
+						addHeaderElement(mmDoc, "cbc:CompanyID", bpe.getTaxID().trim(), atts);
+						atts.clear();
+						mmDoc.startElement("","","cac:CorporateRegistrationScheme", atts);
+							if (! "".equals(m_Prefix))
+								// M N 6, Prefijo de la facturación usada para el punto de venta
+								addHeaderElement(mmDoc, "cbc:ID", m_Prefix, atts);	// TODO reviewme
+								// O N 6, Número de matrícula mercantil (identificador de sucursal: punto de facturación) 
+								// addHeaderElement(mmDoc, "cbc:Name", m_Prefix, atts);	// TODO
+						mmDoc.endElement("","","cac:CorporateRegistrationScheme");
+					mmDoc.endElement("","","cac:PartyLegalEntity"); */
+					String mailContacto = MSysConfig.getValue("QSSLCO_FE_ReplyToEMail", null, inv.getAD_Client_ID());
+					/* if (mailContacto != null) {
+						mmDoc.startElement("","","cac:Contact", atts);
+							// O AN Max 250 Correo electrónico  de la persona de contacto.
+							addHeaderElement(mmDoc, "cbc:ElectronicMail", mailContacto, atts);
+						mmDoc.endElement("","","cac:Contact");
+					} */
+				mmDoc.endElement("","","cac:Party");
+			mmDoc.endElement("","","cac:AccountingCustomerParty");
 			
 			if (m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE)) {
 				// M 1..1, Método de pago
 				mmDoc.startElement("","","cac:PaymentMeans",atts);
 				// O AN Max 3 Código correspondiente al medio de pago Tabla 5
-				addHeaderElement(mmDoc, "cbc:ID", inv.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDeposit) ? LCO_FE_Utils.MEDIO_PAGO_DEBITO_CA : LCO_FE_Utils.MEDIO_PAGO_NO_DEFINIDO, atts);
+				addHeaderElement(mmDoc, "cbc:ID", inv.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDeposit) ? LCO_FE_Utils.METODO_PAGO_CONTADO : LCO_FE_Utils.MEDIO_PAGO_NO_DEFINIDO, atts);
 				// D AN Max 3 Método de pago. Tabla 26
 				if (inv.getPaymentRule().equals(MInvoice.PAYMENTRULE_OnCredit))
 					addHeaderElement(mmDoc, "cbc:PaymentMeansCode", LCO_FE_Utils.METODO_PAGO_CREDITO, atts);
 				else if (inv.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDeposit))
-					addHeaderElement(mmDoc, "cbc:PaymentMeansCode", LCO_FE_Utils.METODO_PAGO_CONTADO, atts);
+					addHeaderElement(mmDoc, "cbc:PaymentMeansCode", LCO_FE_Utils.MEDIO_PAGO_NO_DEFINIDO, atts);
 				// D AN Max 10 Fecha de pago Formato AAAA-MM-DD
 				if (inv.getPaymentRule().equals(MInvoice.PAYMENTRULE_OnCredit)) {
 					args = new Object[] { inv.getC_PaymentTerm_ID(), (Timestamp) inv.get_Value("LCO_FE_DateTrx")};
@@ -4093,7 +4097,7 @@ public class DIAN21_FE_UtilsXML {
 			cufedata.append(LCO_FE_Utils.decimalFormat(importeica));
 		}
 		cufedata.append(LCO_FE_Utils.decimalFormat(grandtotal));
-		cufedata.append(taxidofe);
+		cufedata.append(!isDocSoporte ? taxidofe : taxidadq);
 		if ( LCO_FE_Utils.TIPO_COMPROBANTE_FACTURA.equals(dianshortdoctype)
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_NC.equals(dianshortdoctype)
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_ND.equals(dianshortdoctype)
@@ -4101,11 +4105,13 @@ public class DIAN21_FE_UtilsXML {
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype) ) {
 			if (!LCO_FE_Utils.UBL_VERSION_21.equals(m_UBLVersionNo))
 				cufedata.append(taxcodedian);
-			cufedata.append(taxidadq);
+			cufedata.append(!isDocSoporte ? taxidadq : taxidofe);
 		}
 		if (   !m_UseContingency
 			&& (   LCO_FE_Utils.TIPO_COMPROBANTE_FACTURA.equals(dianshortdoctype)
-				|| LCO_FE_Utils.TIPO_COMPROBANTE_EXPORTACION.equals(dianshortdoctype))) {
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_EXPORTACION.equals(dianshortdoctype)
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype))) {
 			cufedata.append(techkey);
 		} else {
 			if (LCO_FE_Utils.UBL_VERSION_21.equals(m_UBLVersionNo)) {
@@ -4126,7 +4132,7 @@ public class DIAN21_FE_UtilsXML {
 		if (LCO_FE_Utils.UBL_VERSION_21.equals(m_UBLVersionNo))
 			cufedata.append(m_EnvType);
 		
-		System.out.println("CUFE/UUID String: " + cufedata.toString());
+		s_log.warning("CUFE/UUID String: " + cufedata.toString());
 	
 	    try
 	    {
@@ -4298,8 +4304,8 @@ public class DIAN21_FE_UtilsXML {
 				+ (!isDocSoporte ? "HorFac: " : "HorDS: ") + LCO_FE_Utils.getDateTime(datetrx, 14) + " ");	// YYYYmmddHHMMss.TZ
 		else
 			qrdata.append("FecFac: " + LCO_FE_Utils.getDateTime(datetrx, 19) + " ");	// YYYYmmddHHMMss
-		qrdata.append((!isDocSoporte ? "NitFac: " : "NumSNO: ") + taxidofe + " ");
-		qrdata.append("DocAdq: " + taxidadq + " ");
+		qrdata.append((!isDocSoporte ? "NitFac: " + taxidofe + " " : "NumSNO: ") + taxidadq + " ");
+		qrdata.append("DocAdq: " + (!isDocSoporte ? taxidadq + " " : taxidofe + " "));
 		qrdata.append((!isDocSoporte ? "ValFac: " : "ValDS: ") + LCO_FE_Utils.decimalFormat(totallines) + " ");
 		qrdata.append("ValIva: " + LCO_FE_Utils.decimalFormat(importeiva) + " ");
 		if (!isDocSoporte)
