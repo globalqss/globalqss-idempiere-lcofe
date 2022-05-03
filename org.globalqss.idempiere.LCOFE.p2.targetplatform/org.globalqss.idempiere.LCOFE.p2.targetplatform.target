@@ -25,6 +25,12 @@
 		<repository location="file:../globalqss-iDempiere-LCO/org.globalqss.idempiere.LCO.p2.site/target/repository"/>
 	</location>
 	<location includeSource="true" missingManifest="generate" type="Maven">
+		<groupId>org.apache.santuario</groupId>
+		<artifactId>xmlsec</artifactId>
+		<version>2.2.1</version>
+		<type>jar</type>
+	</location>
+	<location includeSource="true" missingManifest="generate" type="Maven">
 		<groupId>io.github.classgraph</groupId>
 		<artifactId>classgraph</artifactId>
 		<version>4.8.138</version>

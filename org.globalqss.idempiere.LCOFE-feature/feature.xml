@@ -2,7 +2,7 @@
 <feature
       id="org.globalqss.idempiere.LCOFE.feature"
       label="LCOFE-feature"
-      version="8.2.0.qualifier"
+      version="9.0.0.qualifier"
       provider-name="GlobalQSS">
 
    <description>
