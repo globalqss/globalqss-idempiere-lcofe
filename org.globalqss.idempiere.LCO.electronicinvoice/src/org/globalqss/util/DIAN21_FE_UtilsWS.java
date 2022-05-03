@@ -25,33 +25,33 @@
 
 package org.globalqss.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+//import java.io.File;
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
+//import java.nio.file.StandardOpenOption;
 
-import javax.xml.bind.JAXBElement;
+//import javax.xml.bind.JAXBElement;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MDocType;
-import org.compiere.model.MInvoice;
+//import org.compiere.model.MBPartner;
+//import org.compiere.model.MDocType;
+//import org.compiere.model.MInvoice;
 import org.compiere.model.MOrg;
-import org.compiere.model.MOrgInfo;
-import org.compiere.model.MSequence;
-import org.compiere.model.MSysConfig;
-import org.compiere.util.CLogger;
-import org.compiere.util.Env;
-import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
-import org.datacontract.schemas._2004._07.numberrangeresponse.ArrayOfNumberRangeResponse;
-import org.datacontract.schemas._2004._07.numberrangeresponse.NumberRangeResponse;
-import org.datacontract.schemas._2004._07.numberrangeresponselist.NumberRangeResponseList;
-import org.globalqss.fedian.client.api.ServiceClientUtil;
+//import org.compiere.model.MOrgInfo;
+//import org.compiere.model.MSequence;
+//import org.compiere.model.MSysConfig;
+//import org.compiere.util.CLogger;
+//import org.compiere.util.Env;
+//import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
+//import org.datacontract.schemas._2004._07.numberrangeresponse.ArrayOfNumberRangeResponse;
+//import org.datacontract.schemas._2004._07.numberrangeresponse.NumberRangeResponse;
+//import org.datacontract.schemas._2004._07.numberrangeresponselist.NumberRangeResponseList;
+//import org.globalqss.fedian.client.api.ServiceClientUtil;
 import org.globalqss.model.LCO_FE_MInvoice;
 import org.globalqss.model.MLCOFEAuthorization;
-import org.globalqss.model.X_LCO_FE_DIAN_Format;
+//import org.globalqss.model.X_LCO_FE_DIAN_Format;
 
 /**
  *	Utils for LCO FE Xml
@@ -63,11 +63,13 @@ import org.globalqss.model.X_LCO_FE_DIAN_Format;
 public class DIAN21_FE_UtilsWS {
 
 	/**	s_log			*/
-	private static CLogger s_log = CLogger.getCLogger(DIAN21_FE_UtilsWS.class);
+	//private static CLogger s_log = CLogger.getCLogger(DIAN21_FE_UtilsWS.class);
 	
-	private static String m_Output_Directory;
+	//private static String m_Output_Directory;
 
 	public String sendFile(LCO_FE_MInvoice invoice) {
+		throw new AdempiereException("not implemented");
+		/*
 		String msg = null;
 
 		if (!invoice.is_FE_UseContingency() && !invoice.is_FE_GenerateInBatch()) {
@@ -108,9 +110,12 @@ public class DIAN21_FE_UtilsWS {
 		}
 
 		return msg;
+		*/
 	}
 
 	public String getStatus(MLCOFEAuthorization auth) {
+		throw new AdempiereException("not implemented");
+		/*
 		if (auth.isProcessed())
 			return null;
 		
@@ -155,9 +160,12 @@ public class DIAN21_FE_UtilsWS {
 		}
 		String msg = LCO_FE_Utils.setErrorMsgFromDianResponse(auth, response);
 		return msg;
+		*/
 	}
 
 	public String getNumberingRange(MOrg org) {
+		throw new AdempiereException("not implemented");
+		/*
 		String folderRaiz = MSysConfig.getValue("QSSLCO_FE_RutaGeneracionXml", null, Env.getAD_Client_ID(Env.getCtx()));	// Segun SysConfig + Formato
 		m_Output_Directory = folderRaiz + File.separator + LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS;
 		(new File(folderRaiz + File.separator + LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS + File.separator)).mkdirs();
@@ -196,6 +204,7 @@ public class DIAN21_FE_UtilsWS {
 		}
 		
 		return msg.toString();
+		*/
 	}
 
 }	// DIAN21_FE_UtilsWS

@@ -63,11 +63,12 @@ import org.compiere.model.MOrg;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MUserMail;
-import org.compiere.util.CLogger;
+//import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.EMail;
+import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
+//import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
 import org.globalqss.model.MLCOFEAuthorization;
 import org.globalqss.model.X_LCO_FE_Authorization;
 import org.w3c.dom.Document;
@@ -82,7 +83,7 @@ import org.w3c.dom.NodeList;
 
 public class LCO_FE_Utils {
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(LCO_FE_Utils.class);
+	//private static CLogger log = CLogger.getCLogger(LCO_FE_Utils.class);
 
 	public static String TIPO_COMPROBANTE_ND = "ND";
 	public static String TIPO_COMPROBANTE_NC = "NC";
@@ -590,6 +591,7 @@ public class LCO_FE_Utils {
 		return new String(str.trim());
 	}
 
+	/*
 	public static String setErrorMsgFromDianResponse(MLCOFEAuthorization auth, DianResponse response) {
 		Boolean isValid = response.isIsValid();
 		String statusCode = response.getStatusCode().getValue();
@@ -631,6 +633,7 @@ public class LCO_FE_Utils {
 		auth.saveEx();
 		return statusDescription + (statusMessage == null ? "" : " - " + statusMessage);
 	}
+	*/
 
 	/**
 	 * Fix TimeZone DIAN
@@ -766,8 +769,14 @@ public class LCO_FE_Utils {
 			Document document = DIAN21_FE_UtilsSign.getDocument(file);
 	        String validationDate = evaluateXPath(document, "//*[local-name()='Created']/text()").get(0);
 	        String isValid = evaluateXPath(document, "//*[local-name()='IsValid']/text()").get(0);
-	        String statusCode = evaluateXPath(document, "//*[local-name()='StatusCode']/text()").get(0);
-	        String statusDescription = evaluateXPath(document, "//*[local-name()='StatusDescription']/text()").get(0);
+	        String statusCode = "";
+	        try {
+		        statusCode = evaluateXPath(document, "//*[local-name()='StatusCode']/text()").get(0);
+	        } catch (IndexOutOfBoundsException e) {}
+	        String statusDescription = "";
+	        try {
+		        statusDescription = evaluateXPath(document, "//*[local-name()='StatusDescription']/text()").get(0);
+	        } catch (IndexOutOfBoundsException e) {}
 	        String statusMessage = "";
 	        try {
 	        	statusMessage = evaluateXPath(document, "//*[local-name()='StatusMessage']/text()").get(0);
@@ -779,7 +788,11 @@ public class LCO_FE_Utils {
 	        	errorMsg.append("\n").append(error);
 	        }
 	        auth.setErrorMsg(errorMsg.toString());
-	        auth.setLCO_FE_IdErrorCode(new BigDecimal(statusCode));
+	        BigDecimal statusCodeBD = Env.ONE.negate();
+	        try {
+		        statusCodeBD = new BigDecimal(statusCode);
+	        } catch (NumberFormatException e) {}
+	        auth.setLCO_FE_IdErrorCode(statusCodeBD);
         	String output_Directory = file.substring(0, file.lastIndexOf(File.separator));
         	String file_response = null;
 	        if (STATUS_CODE_PROCESADO.equals(statusCode) && "true".equals(isValid)) {

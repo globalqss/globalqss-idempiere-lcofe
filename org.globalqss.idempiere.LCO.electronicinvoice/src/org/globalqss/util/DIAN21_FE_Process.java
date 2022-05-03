@@ -25,6 +25,7 @@
 
 package org.globalqss.util;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MOrg;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.Env;
@@ -70,8 +71,9 @@ public class DIAN21_FE_Process implements ILCO_FE_ProcessInvoice {
 			DIAN21_FE_UtilsWS_PHP utilSend = new DIAN21_FE_UtilsWS_PHP();
 			msg = utilSend.sendFile(invoice);
 		} else {
-			DIAN21_FE_UtilsWS utilSend = new DIAN21_FE_UtilsWS();
-			msg = utilSend.sendFile(invoice);
+			throw new AdempiereException("not implemented");
+			//DIAN21_FE_UtilsWS utilSend = new DIAN21_FE_UtilsWS();
+			//msg = utilSend.sendFile(invoice);
 		}
 		return msg;
 	}
@@ -87,8 +89,9 @@ public class DIAN21_FE_Process implements ILCO_FE_ProcessInvoice {
 			DIAN21_FE_UtilsWS_PHP utilGetStatus = new DIAN21_FE_UtilsWS_PHP();
 			msg = utilGetStatus.getStatus(auth);
 		} else {
-			DIAN21_FE_UtilsWS utilGetStatus = new DIAN21_FE_UtilsWS();
-			msg = utilGetStatus.getStatus(auth);
+			throw new AdempiereException("not implemented");
+			//DIAN21_FE_UtilsWS utilGetStatus = new DIAN21_FE_UtilsWS();
+			//msg = utilGetStatus.getStatus(auth);
 		}
 		return msg;
 	}
@@ -104,8 +107,9 @@ public class DIAN21_FE_Process implements ILCO_FE_ProcessInvoice {
 			DIAN21_FE_UtilsWS_PHP utilGetNumberingRange = new DIAN21_FE_UtilsWS_PHP();
 			msg = utilGetNumberingRange.getNumberingRange(org);
 		} else {
-			DIAN21_FE_UtilsWS utilGetNumberingRange = new DIAN21_FE_UtilsWS();
-			msg = utilGetNumberingRange.getNumberingRange(org);
+			throw new AdempiereException("not implemented");
+			//DIAN21_FE_UtilsWS utilGetNumberingRange = new DIAN21_FE_UtilsWS();
+			//msg = utilGetNumberingRange.getNumberingRange(org);
 		}
 		return msg;
 	}

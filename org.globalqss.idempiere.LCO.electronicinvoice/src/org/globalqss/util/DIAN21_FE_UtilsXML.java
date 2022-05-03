@@ -3549,8 +3549,8 @@ public class DIAN21_FE_UtilsXML {
 								// addHeaderElement(mmDoc, "cbc:Name", m_Prefix, atts);	// TODO
 						mmDoc.endElement("","","cac:CorporateRegistrationScheme");
 					mmDoc.endElement("","","cac:PartyLegalEntity"); */
-					String mailContacto = MSysConfig.getValue("QSSLCO_FE_ReplyToEMail", null, inv.getAD_Client_ID());
-					/* if (mailContacto != null) {
+					/* String mailContacto = MSysConfig.getValue("QSSLCO_FE_ReplyToEMail", null, inv.getAD_Client_ID());
+					if (mailContacto != null) {
 						mmDoc.startElement("","","cac:Contact", atts);
 							// O AN Max 250 Correo electrónico  de la persona de contacto.
 							addHeaderElement(mmDoc, "cbc:ElectronicMail", mailContacto, atts);
