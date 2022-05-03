@@ -22,7 +22,7 @@
                 <unit id="org.globalqss.idempiere.LCO.withholdings" version="9.0.0.202204231646"/>
                 <unit id="org.globalqss.idempiere.LCO.invoicenumbercontrol" version="9.0.0.202204231646"/>
                 <unit id="org.globalqss.idempiere.LCO.detailednames" version="9.0.0.202204231646"/>
-		<repository location="file:../globalqss-idempiere-lco/org.globalqss.idempiere.LCO.p2.site/target/repository"/>
+		<repository location="file:../globalqss-iDempiere-LCO/org.globalqss.idempiere.LCO.p2.site/target/repository"/>
 	</location>
 	<location includeSource="true" missingManifest="generate" type="Maven">
 		<groupId>io.github.classgraph</groupId>
