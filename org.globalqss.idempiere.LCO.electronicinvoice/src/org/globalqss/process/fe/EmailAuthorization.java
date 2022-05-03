@@ -615,9 +615,13 @@ public class EmailAuthorization extends SvrProcess
 					//
 					mmDoc.startElement("","","cac:ResultOfVerification", atts);
 						addHeaderElement(mmDoc, "cbc:ValidatorID", "Unidad Especial Dirección de Impuestos y Aduanas Nacionales", atts);
-						tag = resp_doc.getElementsByTagName("cbc:ResponseCode");	// b:StatusCode
+						tag = resp_doc.getElementsByTagName("cbc:ResponseCode");
+						if (tag == null || tag.item(0) == null)
+							tag = resp_doc.getElementsByTagName("b:StatusCode");
 						addHeaderElement(mmDoc, "cbc:ValidationResultCode", tag.item(0).getTextContent(), atts);
-						tag = resp_doc.getElementsByTagName("xades:SigningTime");	// u:Created
+						tag = resp_doc.getElementsByTagName("xades:SigningTime");
+						if (tag == null || tag.getLength() == 0)
+							tag = resp_doc.getElementsByTagName("u:Created"); 
 						addHeaderElement(mmDoc, "cbc:ValidationDate", tag.item(tag.getLength()-1).getTextContent().substring(0, 10), atts);
 						addHeaderElement(mmDoc, "cbc:ValidationTime", tag.item(tag.getLength()-1).getTextContent().substring(11), atts);
 					mmDoc.endElement("","","cac:ResultOfVerification");
