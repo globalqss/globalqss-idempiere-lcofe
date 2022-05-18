@@ -11,6 +11,7 @@ mvn clean verify -Didempiere.target=org.globalqss.idempiere.LCOFE.p2.targetplatf
 
 	<modules>
 		<module>org.globalqss.idempiere.LCO.electronicinvoice</module>
+		<module>org.globalqss.idempiere.LCOFE.DIAN</module>
 		<module>org.globalqss.idempiere.LCOFE-feature</module>
 		<module>org.globalqss.idempiere.LCOFE.p2.targetplatform</module>
 		<module>org.globalqss.idempiere.LCOFE.p2.site</module>

@@ -23,7 +23,7 @@
 * - Carlos Ruiz - globalqss                                           *
 **********************************************************************/
 
-package org.globalqss.util;
+package org.globalqss.dian.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -61,6 +61,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.globalqss.model.LCO_FE_MInvoice;
 import org.globalqss.model.MLCOFEAuthorization;
+import org.globalqss.util.LCO_FE_Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -162,7 +163,7 @@ public class DIAN21_FE_UtilsSign {
 		DirectPasswordProvider dpp = new DirectPasswordProvider(m_PKCS12_Password);
 
 		// Abre el archivo XML que se desea firmar
-		Document doc = getDocument(m_Resource_To_Sign);
+		Document doc = LCO_FE_Utils.getDocument(m_Resource_To_Sign);
 		doc.normalizeDocument();
 
 		// Establece el punto donde se requiere la firma (segundo elemento ext:ExtensionContent del XML
@@ -296,29 +297,6 @@ public class DIAN21_FE_UtilsSign {
 
 		invoice.set_FE_FileSigned(signed_file_name);
 
-	}
-
-	/**
-	 * <p>
-	 * Devuelve el <code>Document</code> correspondiente al
-	 * <code>resource</code> pasado como parámetro
-	 * </p>
-	 * 
-	 * @param resource
-	 *            El recurso que se desea obtener
-	 * @return El <code>Document</code> asociado al <code>resource</code>
-	 */
-	public static Document getDocument(String resource) {
-		Document doc = null;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
-		try {
-			doc = dbf.newDocumentBuilder().parse(new File(resource));
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new AdempiereException(ex);
-		}
-		return doc;
 	}
 
 	public static Document getDocumentFromXml64Bytes(byte[] bytes) {

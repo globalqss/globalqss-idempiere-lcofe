@@ -1,8 +1,13 @@
-package org.globalqss.util;
+package org.globalqss.dian.util;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
@@ -18,6 +23,8 @@ import org.compiere.util.Util;
 import org.globalqss.model.LCO_FE_MInvoice;
 import org.globalqss.model.X_LCO_FE_Authorization;
 import org.globalqss.model.X_LCO_FE_DIAN_Format;
+import org.globalqss.util.LCO_FE_Utils;
+import org.w3c.dom.Document;
 
 /**
  *	Utils for LCO FE Xml
@@ -78,7 +85,7 @@ public class DIAN21_FE_UtilsWS_PHP {
 					LCO_FE_Utils.attachFile(a.getCtx(), a.get_TrxName(), a.getLCO_FE_Authorization_ID(), output_base_file + "_answer.xml", LCO_FE_Utils.RESOURCE_XML);
 				}
 				if ("RequestSendBillSync.php".equals(sendScript)) {
-					LCO_FE_Utils.setErrorMsgFromFile_PHP(a, output_base_file + "_answer.xml");
+					setErrorMsgFromFile_PHP(a, output_base_file + "_answer.xml");
 					if (! a.isProcessed()) {
 						msg = a.getErrorMsg();
 					}
@@ -122,7 +129,7 @@ public class DIAN21_FE_UtilsWS_PHP {
 		// Formato
 		X_LCO_FE_DIAN_Format df = new X_LCO_FE_DIAN_Format (auth.getCtx(), auth.getLCO_FE_DIAN_Format_ID(), auth.get_TrxName());
 		
-		String xmlFileName = DIAN21_FE_UtilsXML.constructFileName(bpe.getTaxID(), df.getValue(), documentno, df.getLCO_FE_EDIType(), true);
+		String xmlFileName = LCO_FE_Utils.constructFileName(bpe.getTaxID(), df.getValue(), documentno, df.getLCO_FE_EDIType(), true);
 		
 		String output_base_file = m_Output_Directory 
 				+ File.separator
@@ -149,7 +156,7 @@ public class DIAN21_FE_UtilsWS_PHP {
 				LCO_FE_Utils.attachFile(auth.getCtx(), auth.get_TrxName(), auth.getLCO_FE_Authorization_ID(), output_base_file + "_request.xml", LCO_FE_Utils.RESOURCE_XML);
 				LCO_FE_Utils.attachFile(auth.getCtx(), auth.get_TrxName(), auth.getLCO_FE_Authorization_ID(), output_base_file + "_answer.xml", LCO_FE_Utils.RESOURCE_XML);
 			}
-			LCO_FE_Utils.setErrorMsgFromFile_PHP(auth, output_base_file + "_answer.xml");
+			setErrorMsgFromFile_PHP(auth, output_base_file + "_answer.xml");
 		}
 
 		return msg;
@@ -201,6 +208,64 @@ public class DIAN21_FE_UtilsWS_PHP {
 		}
 
 		return msg;
+	}
+
+	/**
+	 * 	void setErrorMsgFromFile_PHP
+	 *  @param invoice Invoice
+	 * 	@return void
+	 */
+	public static void setErrorMsgFromFile_PHP(X_LCO_FE_Authorization auth, String file) {
+		try {
+			Document document = LCO_FE_Utils.getDocument(file);
+	        String validationDate = LCO_FE_Utils.evaluateXPath(document, "//*[local-name()='Created']/text()").get(0);
+	        String isValid = LCO_FE_Utils.evaluateXPath(document, "//*[local-name()='IsValid']/text()").get(0);
+	        String statusCode = "";
+	        try {
+		        statusCode = LCO_FE_Utils.evaluateXPath(document, "//*[local-name()='StatusCode']/text()").get(0);
+	        } catch (IndexOutOfBoundsException e) {}
+	        String statusDescription = "";
+	        try {
+		        statusDescription = LCO_FE_Utils.evaluateXPath(document, "//*[local-name()='StatusDescription']/text()").get(0);
+	        } catch (IndexOutOfBoundsException e) {}
+	        String statusMessage = "";
+	        try {
+	        	statusMessage = LCO_FE_Utils.evaluateXPath(document, "//*[local-name()='StatusMessage']/text()").get(0);
+	        } catch (IndexOutOfBoundsException e) {}
+	        List<String >errors = LCO_FE_Utils.evaluateXPath(document, "//*[local-name()='ErrorMessage']/*/text()");
+	        StringBuilder errorMsg = new StringBuilder();
+	        errorMsg.append(isValid).append(" ").append(statusCode).append(" ").append(statusDescription).append("\n").append(statusMessage);
+	        for (String error : errors) {
+	        	errorMsg.append("\n").append(error);
+	        }
+	        auth.setErrorMsg(errorMsg.toString());
+	        BigDecimal statusCodeBD = Env.ONE.negate();
+	        try {
+		        statusCodeBD = new BigDecimal(statusCode);
+	        } catch (NumberFormatException e) {}
+	        auth.setLCO_FE_IdErrorCode(statusCodeBD);
+        	String output_Directory = file.substring(0, file.lastIndexOf(File.separator));
+        	String file_response = null;
+	        if (LCO_FE_Utils.STATUS_CODE_PROCESADO.equals(statusCode) && "true".equals(isValid)) {
+	        	if (auth.getLCO_FE_DateAuthorization() == null) {
+	        		auth.setLCO_FE_DateAuthorization(LCO_FE_Utils.fixTimeZone(validationDate).toString());	// First Time
+	        	} 
+	        	auth.setProcessed(true);
+	        	auth.saveEx();
+	        	output_Directory = output_Directory.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_TRANSMITIDOS, LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS);
+	        } else {
+	        	output_Directory = output_Directory.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_TRANSMITIDOS, LCO_FE_Utils.FOLDER_COMPROBANTES_RECHAZADOS);
+	        }
+	        (new File(output_Directory)).mkdirs();
+	        file_response = output_Directory + File.separator + file.substring(file.lastIndexOf(File.separator) + 1, file.lastIndexOf(File.separator) + 25) + "_response" + "." + LCO_FE_Utils.RESOURCE_XML;
+	        file_response = file_response.replace("ws_", "face_");
+	        Files.copy(Paths.get(file), Paths.get(file_response), StandardCopyOption.REPLACE_EXISTING);
+	        if (auth.isProcessed())	// TODO Reviewme
+	        	LCO_FE_Utils.attachFile(auth.getCtx(), auth.get_TrxName(), auth.getLCO_FE_Authorization_ID(), file_response, LCO_FE_Utils.RESOURCE_XML);
+	        auth.saveEx();
+		} catch (Exception e) {
+			throw new AdempiereException(e);
+		}
 	}
 
 }	// DIAN21_FE_UtilsWS_PHP

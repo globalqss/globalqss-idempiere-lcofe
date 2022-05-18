@@ -23,7 +23,7 @@
  * - Carlos Ruiz - globalqss                                           *
  **********************************************************************/
 
-package org.globalqss.util;
+package org.globalqss.dian.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +46,7 @@ import org.compiere.util.Util;
 import org.globalqss.model.LCO_FE_MInvoice;
 import org.globalqss.model.MLCOFEAuthorization;
 import org.globalqss.model.X_LCO_FE_DocType;
+import org.globalqss.util.LCO_FE_Utils;
 
 public class DIAN21_FE_UtilsSign_PHP {
 

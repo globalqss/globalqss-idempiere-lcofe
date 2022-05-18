@@ -65,8 +65,6 @@ import org.compiere.util.Msg;
 import org.globalqss.model.MLCOFEAuthorization;
 import org.globalqss.model.X_LCO_FE_DIAN_Format;
 import org.globalqss.model.X_LCO_FE_DocType;
-import org.globalqss.util.DIAN21_FE_UtilsSign;
-import org.globalqss.util.DIAN21_FE_UtilsXML;
 import org.globalqss.util.LCO_FE_Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -244,9 +242,6 @@ public class EmailAuthorization extends SvrProcess
 		
 		String msg = null;
 		
-		// DIAN 2.0 UBL 2.1
-		DIAN21_FE_UtilsXML utilsXml = new DIAN21_FE_UtilsXML();
-		
 		try {
 			
 			int c_invoice_id = 0;
@@ -299,7 +294,7 @@ public class EmailAuthorization extends SvrProcess
 			MBPartner bp = new MBPartner(getCtx(), invoice.getC_BPartner_ID(), get_TrxName());
 			Env.setContext(Env.getCtx(), "#C_BPartner_Name", bp.getName());
 			
-			String xmlFileName = DIAN21_FE_UtilsXML.constructFileName(bpe.getTaxID(), f.getValue(), m_DocumentNo, "xml", true);
+			String xmlFileName = LCO_FE_Utils.constructFileName(bpe.getTaxID(), f.getValue(), m_DocumentNo, "xml", true);
 
 			// Ruta completa del archivo
 			m_File_Name = m_FolderRaiz + File.separator + LCO_FE_Utils.FOLDER_COMPROBANTES_FIRMADOS + File.separator + xmlFileName;
@@ -310,12 +305,12 @@ public class EmailAuthorization extends SvrProcess
 			log.warning("@LCO_FE_Authorization_ID@ -> " + m_File_Name);
 			m_File_Name_Cont = m_File_Name.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_FIRMADOS, LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS);
 			m_File_Name_Cont = m_File_Name_Cont.replace(".xml", "_container.xml");
-			File contfile = utilsXml.getFileFromStream(m_File_Name_Cont, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "_container");
+			File contfile = LCO_FE_Utils.getFileFromStream(m_File_Name_Cont, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "_container");
 			
 			if (contfile == null) {
 				// Get resourceXml
 				m_File_Name_Xml = m_File_Name.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_FIRMADOS, LCO_FE_Utils.FOLDER_COMPROBANTES_GENERADOS);
-	    		File file = utilsXml.getFileFromStream(m_File_Name_Xml, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "None");
+	    		File file = LCO_FE_Utils.getFileFromStream(m_File_Name_Xml, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "None");
 			    
 				if (file == null)
 	    			throw new AdempiereUserError("@NotFound@: " + m_File_Name_Xml);
@@ -325,7 +320,7 @@ public class EmailAuthorization extends SvrProcess
 				
 				// Get signedXml
 				m_File_Name_Sign = m_File_Name.replace(".xml", "_signed.xml");
-				file = utilsXml.getFileFromStream(m_File_Name_Sign, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "_signed");
+				file = LCO_FE_Utils.getFileFromStream(m_File_Name_Sign, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "_signed");
 			    
 	    		if (file == null)
 	    			throw new AdempiereUserError("@NotFound@: " + m_File_Name_Sign);
@@ -336,7 +331,7 @@ public class EmailAuthorization extends SvrProcess
 				// Get responseXml
 				m_File_Name_Resp = m_File_Name.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_FIRMADOS, LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS);
 				m_File_Name_Resp = m_File_Name_Resp.replace(".xml", "_response.xml");
-	    		File respfile = utilsXml.getFileFromStream(m_File_Name_Resp, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "_response.xml");
+	    		File respfile = LCO_FE_Utils.getFileFromStream(m_File_Name_Resp, authorization.getLCO_FE_Authorization_ID(), m_File_Type, "_response.xml");
 			    
 	    		if (respfile == null)
 	    			throw new AdempiereUserError("@NotFound@: " + m_File_Name_Resp);
@@ -363,7 +358,7 @@ public class EmailAuthorization extends SvrProcess
     		// Get resourcePdf
 			m_File_Name_Pdf = m_File_Name.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_FIRMADOS, LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS);
 			m_File_Name_Pdf = m_File_Name_Pdf.replace(LCO_FE_Utils.RESOURCE_XML, LCO_FE_Utils.RESOURCE_PDF);
-			File pdffile = utilsXml.getFileFromStream(m_File_Name_Pdf, authorization.getLCO_FE_Authorization_ID(), LCO_FE_Utils.RESOURCE_PDF, "None");
+			File pdffile = LCO_FE_Utils.getFileFromStream(m_File_Name_Pdf, authorization.getLCO_FE_Authorization_ID(), LCO_FE_Utils.RESOURCE_PDF, "None");
 			
 			if (pdffile == null) {
 				File pdfinvoice = invoice.createPDF();
@@ -460,11 +455,11 @@ public class EmailAuthorization extends SvrProcess
     		
     		// Abre el archivo XML que se desea leer
         	Document doc = null;
-    	    doc = DIAN21_FE_UtilsSign.getDocument(gen_filename);
+    	    doc = LCO_FE_Utils.getDocument(gen_filename);
     	    doc.normalizeDocument();
     	    
     	    Document resp_doc = null;
-    	    resp_doc = DIAN21_FE_UtilsSign.getDocument(resp_filename);
+    	    resp_doc = LCO_FE_Utils.getDocument(resp_filename);
             resp_doc.normalizeDocument();
     	    
     	    NodeList tag = null;

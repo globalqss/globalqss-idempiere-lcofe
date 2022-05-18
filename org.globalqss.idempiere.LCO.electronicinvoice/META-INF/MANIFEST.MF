@@ -7,25 +7,14 @@ Bundle-Activator: org.adempiere.plugin.utils.Incremental2PackActivator
 Bundle-Vendor: GlobalQSS
 Require-Bundle: org.adempiere.base;bundle-version="9.0.0",
  org.adempiere.plugin.utils;bundle-version="9.0.0",
- org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="9.0.0",
  org.globalqss.idempiere.LCO.detailednames;bundle-version="9.0.0",
- org.apache.santuario.xmlsec;bundle-version="2.2.1",
- org.glassfish.hk2.external.aopalliance-repackaged;bundle-version="2.6.1",
- bcprov;bundle-version="1.69.0",
- bcpkix;bundle-version="1.69.0",
- jakarta.xml.bind-api;bundle-version="2.3.3",
- com.google.guava;bundle-version="30.1.1",
- slf4j.api;bundle-version="1.7.30",
- com.google.guava.failureaccess;bundle-version="1.0.1"
+ org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="9.0.0"
 Export-Package: org.globalqss.model,
  org.globalqss.util
 Service-Component: OSGI-INF/*.xml
 Import-Package: org.osgi.service.event
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- local_lib/guice-4.2.2.jar,
- local_lib/javax.inject-1.jar,
- local_lib/xades4j-1.5.1.jar
+Bundle-ClassPath: .
 Automatic-Module-Name: org.globalqss.idempiere.LCO.electronicinvoice
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=11))"

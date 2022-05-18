@@ -23,12 +23,10 @@
 * - Carlos Ruiz - globalqss                                           *
 **********************************************************************/
 
-package org.globalqss.util;
+package org.globalqss.dian.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
@@ -48,8 +46,6 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MAttachment;
-import org.compiere.model.MAttachmentEntry;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
@@ -58,7 +54,6 @@ import org.compiere.model.MOrgInfo;
 import org.compiere.model.MProduct;
 import org.compiere.model.MSequence;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.MTable;
 import org.compiere.model.MTaxCategory;
 import org.compiere.model.MUser;
 import org.compiere.util.AdempiereUserError;
@@ -82,6 +77,7 @@ import org.globalqss.model.X_LCO_ISIC;
 import org.globalqss.model.X_LCO_PrintedFormControl;
 import org.globalqss.model.X_LCO_TaxIdType;
 import org.globalqss.model.X_LCO_TaxPayerType;
+import org.globalqss.util.LCO_FE_Utils;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
@@ -4352,69 +4348,6 @@ public class DIAN21_FE_UtilsXML {
 		return xmlFileName.toString();
 	}
 	
-	/**
-	 * 	File constructFileName
-	 *  @param
-	 * 	@return String filename
-	 */
-	public static String constructFileName(String taxid, String repdoctype, String documentno, String file_type, Boolean hex) {
-		
-		String docnoformat = "%010d";
-		if (hex)
-			docnoformat = "%010x";
-		
-		StringBuilder xmlFileName = new StringBuilder("face_");
-		
-		xmlFileName.append(repdoctype);	// m_coddoc | DIAN face_{|f|d|c}
-		xmlFileName.append(String.format("%010d", Integer.valueOf(taxid)));
-		xmlFileName.append(String.format(docnoformat, Integer.valueOf(documentno)));
-		xmlFileName.append("." + file_type);
-		
-		return xmlFileName.toString();
-	}
-	
-	/**
-	 * 	File getFileFromStream
-	 *  @param
-	 * 	@return File file
-	 */
-	public File getFileFromStream(String xmlFilePath, int loc_fe_authorization_id, String resourcetype, String sufix) throws Exception {
-    	
-    	int  ad_table_id = MTable.getTable_ID(MLCOFEAuthorization.Table_Name);
-    	InputStream inputStream = null;
-		OutputStream outputStream = null;
-		String filename = null;
-		File file = null;
-		MAttachment attach =  MAttachment.get(Env.getCtx(), ad_table_id, loc_fe_authorization_id);
-		if (attach != null) {
-    		for (MAttachmentEntry entry : attach.getEntries()) {
-    			filename = entry.getName().substring(0,entry.getName().length()-4);
-    			if (!entry.getName().contains(LCO_FE_Utils.OLD)
-    					// && (signed ? entry.getName().contains(LCO_FE_Utils.SIG) : !entry.getName().contains(LCO_FE_Utils.SIG))
-    					&& (!"None".equals(sufix) ? entry.getName().contains(sufix) : filename.length()==26)
-    					&& entry.getName().endsWith(resourcetype) && entry.getName().contains(filename)) {
-            		// setResource_To_Sign(entry.getName());
-            		inputStream = new FileInputStream(entry.getFile());
-            		outputStream = new FileOutputStream(xmlFilePath);
-            		
-            		int numRead = 0;
-            		byte[] bytes = new byte[1024];
-            		 
-            		while ((numRead = inputStream.read(bytes)) != -1) {
-            			outputStream.write(bytes, 0, numRead);
-            		}
-            		inputStream.close();
-            		outputStream.flush();
-            		outputStream.close();
-            		file = (new File (xmlFilePath));
-            		break;	// First
-            	}
-            }
-		}
-		
-		return file;
-    }
-
 	public AttributesImpl addHeaderAttribute(String dianshortdoctype, String signerPolicy) {
 		
 		String xmlns = "";

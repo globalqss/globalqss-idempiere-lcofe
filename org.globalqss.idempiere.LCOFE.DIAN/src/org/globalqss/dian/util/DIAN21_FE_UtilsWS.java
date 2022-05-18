@@ -23,7 +23,7 @@
 * - Carlos Ruiz - globalqss                                           *
 **********************************************************************/
 
-package org.globalqss.util;
+package org.globalqss.dian.util;
 
 //import java.io.File;
 //import java.io.IOException;
@@ -39,19 +39,8 @@ import org.adempiere.exceptions.AdempiereException;
 //import org.compiere.model.MDocType;
 //import org.compiere.model.MInvoice;
 import org.compiere.model.MOrg;
-//import org.compiere.model.MOrgInfo;
-//import org.compiere.model.MSequence;
-//import org.compiere.model.MSysConfig;
-//import org.compiere.util.CLogger;
-//import org.compiere.util.Env;
-//import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
-//import org.datacontract.schemas._2004._07.numberrangeresponse.ArrayOfNumberRangeResponse;
-//import org.datacontract.schemas._2004._07.numberrangeresponse.NumberRangeResponse;
-//import org.datacontract.schemas._2004._07.numberrangeresponselist.NumberRangeResponseList;
-//import org.globalqss.fedian.client.api.ServiceClientUtil;
 import org.globalqss.model.LCO_FE_MInvoice;
 import org.globalqss.model.MLCOFEAuthorization;
-//import org.globalqss.model.X_LCO_FE_DIAN_Format;
 
 /**
  *	Utils for LCO FE Xml

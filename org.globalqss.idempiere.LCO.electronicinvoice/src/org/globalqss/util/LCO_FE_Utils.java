@@ -27,12 +27,13 @@ package org.globalqss.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -68,9 +70,7 @@ import org.compiere.util.DB;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-//import org.datacontract.schemas._2004._07.dianresponse.DianResponse;
 import org.globalqss.model.MLCOFEAuthorization;
-import org.globalqss.model.X_LCO_FE_Authorization;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -670,7 +670,7 @@ public class LCO_FE_Utils {
 		return bogotaDatetime;
 	}
 
-	private static List<String> evaluateXPath(Document document, String xpathExpression) throws Exception {
+	public static List<String> evaluateXPath(Document document, String xpathExpression) throws Exception {
 		// Create XPathFactory object
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		// Create XPath object
@@ -759,64 +759,6 @@ public class LCO_FE_Utils {
 		return countMail;
 	}
 
-	/**
-	 * 	void setErrorMsgFromFile_PHP
-	 *  @param invoice Invoice
-	 * 	@return void
-	 */
-	public static void setErrorMsgFromFile_PHP(X_LCO_FE_Authorization auth, String file) {
-		try {
-			Document document = DIAN21_FE_UtilsSign.getDocument(file);
-	        String validationDate = evaluateXPath(document, "//*[local-name()='Created']/text()").get(0);
-	        String isValid = evaluateXPath(document, "//*[local-name()='IsValid']/text()").get(0);
-	        String statusCode = "";
-	        try {
-		        statusCode = evaluateXPath(document, "//*[local-name()='StatusCode']/text()").get(0);
-	        } catch (IndexOutOfBoundsException e) {}
-	        String statusDescription = "";
-	        try {
-		        statusDescription = evaluateXPath(document, "//*[local-name()='StatusDescription']/text()").get(0);
-	        } catch (IndexOutOfBoundsException e) {}
-	        String statusMessage = "";
-	        try {
-	        	statusMessage = evaluateXPath(document, "//*[local-name()='StatusMessage']/text()").get(0);
-	        } catch (IndexOutOfBoundsException e) {}
-	        List<String >errors = evaluateXPath(document, "//*[local-name()='ErrorMessage']/*/text()");
-	        StringBuilder errorMsg = new StringBuilder();
-	        errorMsg.append(isValid).append(" ").append(statusCode).append(" ").append(statusDescription).append("\n").append(statusMessage);
-	        for (String error : errors) {
-	        	errorMsg.append("\n").append(error);
-	        }
-	        auth.setErrorMsg(errorMsg.toString());
-	        BigDecimal statusCodeBD = Env.ONE.negate();
-	        try {
-		        statusCodeBD = new BigDecimal(statusCode);
-	        } catch (NumberFormatException e) {}
-	        auth.setLCO_FE_IdErrorCode(statusCodeBD);
-        	String output_Directory = file.substring(0, file.lastIndexOf(File.separator));
-        	String file_response = null;
-	        if (STATUS_CODE_PROCESADO.equals(statusCode) && "true".equals(isValid)) {
-	        	if (auth.getLCO_FE_DateAuthorization() == null) {
-	        		auth.setLCO_FE_DateAuthorization(fixTimeZone(validationDate).toString());	// First Time
-	        	} 
-	        	auth.setProcessed(true);
-	        	auth.saveEx();
-	        	output_Directory = output_Directory.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_TRANSMITIDOS, LCO_FE_Utils.FOLDER_COMPROBANTES_AUTORIZADOS);
-	        } else {
-	        	output_Directory = output_Directory.replace(LCO_FE_Utils.FOLDER_COMPROBANTES_TRANSMITIDOS, LCO_FE_Utils.FOLDER_COMPROBANTES_RECHAZADOS);
-	        }
-	        (new File(output_Directory)).mkdirs();
-	        file_response = output_Directory + File.separator + file.substring(file.lastIndexOf(File.separator) + 1, file.lastIndexOf(File.separator) + 25) + "_response" + "." + LCO_FE_Utils.RESOURCE_XML;
-	        file_response = file_response.replace("ws_", "face_");
-	        Files.copy(Paths.get(file), Paths.get(file_response), StandardCopyOption.REPLACE_EXISTING);
-	        if (auth.isProcessed())	// TODO Reviewme
-	        	LCO_FE_Utils.attachFile(auth.getCtx(), auth.get_TrxName(), auth.getLCO_FE_Authorization_ID(), file_response, LCO_FE_Utils.RESOURCE_XML);
-	        auth.saveEx();
-		} catch (Exception e) {
-			throw new AdempiereException(e);
-		}
-	}
-
 	public static String runCommand(String[] command) {
 		StringBuilder msg = new StringBuilder();
 		try {
@@ -838,6 +780,92 @@ public class LCO_FE_Utils {
 			msg.append(e.getLocalizedMessage());
 		}
 		return msg.toString();
+	}
+
+	/**
+	 * 	File getFileFromStream
+	 *  @param
+	 * 	@return File file
+	 */
+	public static File getFileFromStream(String xmlFilePath, int loc_fe_authorization_id, String resourcetype, String sufix) throws Exception {
+    	
+    	int  ad_table_id = MTable.getTable_ID(MLCOFEAuthorization.Table_Name);
+    	InputStream inputStream = null;
+		OutputStream outputStream = null;
+		String filename = null;
+		File file = null;
+		MAttachment attach =  MAttachment.get(Env.getCtx(), ad_table_id, loc_fe_authorization_id);
+		if (attach != null) {
+    		for (MAttachmentEntry entry : attach.getEntries()) {
+    			filename = entry.getName().substring(0,entry.getName().length()-4);
+    			if (!entry.getName().contains(LCO_FE_Utils.OLD)
+    					// && (signed ? entry.getName().contains(LCO_FE_Utils.SIG) : !entry.getName().contains(LCO_FE_Utils.SIG))
+    					&& (!"None".equals(sufix) ? entry.getName().contains(sufix) : filename.length()==26)
+    					&& entry.getName().endsWith(resourcetype) && entry.getName().contains(filename)) {
+            		// setResource_To_Sign(entry.getName());
+            		inputStream = new FileInputStream(entry.getFile());
+            		outputStream = new FileOutputStream(xmlFilePath);
+            		
+            		int numRead = 0;
+            		byte[] bytes = new byte[1024];
+            		 
+            		while ((numRead = inputStream.read(bytes)) != -1) {
+            			outputStream.write(bytes, 0, numRead);
+            		}
+            		inputStream.close();
+            		outputStream.flush();
+            		outputStream.close();
+            		file = (new File (xmlFilePath));
+            		break;	// First
+            	}
+            }
+		}
+		
+		return file;
+    }
+
+	/**
+	 * 	File constructFileName
+	 *  @param
+	 * 	@return String filename
+	 */
+	public static String constructFileName(String taxid, String repdoctype, String documentno, String file_type, Boolean hex) {
+		
+		String docnoformat = "%010d";
+		if (hex)
+			docnoformat = "%010x";
+		
+		StringBuilder xmlFileName = new StringBuilder("face_");
+		
+		xmlFileName.append(repdoctype);	// m_coddoc | DIAN face_{|f|d|c}
+		xmlFileName.append(String.format("%010d", Integer.valueOf(taxid)));
+		xmlFileName.append(String.format(docnoformat, Integer.valueOf(documentno)));
+		xmlFileName.append("." + file_type);
+		
+		return xmlFileName.toString();
+	}
+	
+	/**
+	 * <p>
+	 * Devuelve el <code>Document</code> correspondiente al
+	 * <code>resource</code> pasado como parámetro
+	 * </p>
+	 * 
+	 * @param resource
+	 *            El recurso que se desea obtener
+	 * @return El <code>Document</code> asociado al <code>resource</code>
+	 */
+	public static Document getDocument(String resource) {
+		Document doc = null;
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		try {
+			doc = dbf.newDocumentBuilder().parse(new File(resource));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new AdempiereException(ex);
+		}
+		return doc;
 	}
 
 }	// LCO_FE_Utils

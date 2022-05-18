@@ -23,7 +23,7 @@
 * - Carlos Ruiz - globalqss                                           *
 **********************************************************************/
 
-package org.globalqss.util;
+package org.globalqss.dian.util;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MOrg;
