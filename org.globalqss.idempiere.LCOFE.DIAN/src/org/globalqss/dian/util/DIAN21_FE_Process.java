@@ -25,6 +25,8 @@
 
 package org.globalqss.dian.util;
 
+import java.util.List;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MOrg;
 import org.compiere.model.MSysConfig;
@@ -111,6 +113,13 @@ public class DIAN21_FE_Process implements ILCO_FE_ProcessInvoice {
 			//DIAN21_FE_UtilsWS utilGetNumberingRange = new DIAN21_FE_UtilsWS();
 			//msg = utilGetNumberingRange.getNumberingRange(org);
 		}
+		return msg;
+	}
+
+	@Override
+	public String sendEMail(List<MLCOFEAuthorization> auths) {
+		DIAN21_FE_UtilsMail utilMail = new DIAN21_FE_UtilsMail();
+		String msg = utilMail.sendEMail(auths);
 		return msg;
 	}
 

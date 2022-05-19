@@ -25,6 +25,8 @@
 
 package org.globalqss.model;
 
+import java.util.List;
+
 import org.compiere.model.MOrg;
 
 public interface ILCO_FE_ProcessInvoice {
@@ -44,5 +46,8 @@ public interface ILCO_FE_ProcessInvoice {
 
 	// This method inquire for the status of an authorization record, returning a String with the message
 	public String getNumberingRange(MOrg org);
+
+	// This method send emails for the list of authorizations
+	public String sendEMail(List<MLCOFEAuthorization> auths);
 
 }
