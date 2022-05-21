@@ -131,6 +131,7 @@ public class LCO_FE_Utils {
 
 	public static String RESOURCE_XML = "xml";
 	public static String RESOURCE_PDF = "pdf";
+	public static String RESOURCE_JSON = "json";
 	public static String RESOURCE_ZIP = "zip";
 	public static String RESOURCE_SIGNED_XML = "SIGNED_XML";
 	public static String RESOURCE_CUFE_PDF = "PDF";
