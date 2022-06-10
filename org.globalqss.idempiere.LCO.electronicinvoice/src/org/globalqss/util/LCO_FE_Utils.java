@@ -62,6 +62,7 @@ import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MMailText;
 import org.compiere.model.MOrg;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MUserMail;
@@ -137,7 +138,7 @@ public class LCO_FE_Utils {
 	public static String RESOURCE_CUFE_PDF = "PDF";
 
 	public static String SIGNER_POLICY_V1 = "http://www.dian.gov.co/contratos/facturaelectronica/v1";
-	public static String SIGNER_POLICY_V2 = "https://facturaelectronica.dian.gov.co/politicadefirma/v2/politicadefirmav2.pdf";
+	public static String SIGNER_POLICY_V2 = MSysConfig.getValue("QSSLCO_FE_SIGNER_POLICY_V2", "https://facturaelectronica.dian.gov.co/politicadefirma/v2/politicadefirmav2.pdf");
 	public static String SIGNER_ELEMENT = "ext:ExtensionContent";
 	public static String SIGNER_POLICY_ID = "Política de firma para facturas electrónicas de la República de Colombia.";
 	public static String SIGNER_OFE_SUPPLIER = "supplier";
