@@ -105,6 +105,7 @@ public class LCO_FE_Utils {
 	public static String CODIGO_INC_04 = "04";		// 2.1 Imp. Nal. Consumo
 	public static String CODIGO_RETFTE_06 = "06";
 	public static String CODIGO_NO_CAUSA_ZY = "ZY";	// Excluido
+	public static String CODIGO_NO_APLICA_ZZ = "ZZ";	// No Aplica
 
 	public static String UBL_VERSION_20 = "UBL 2.0";
 	public static String UBL_VERSION_21 = "UBL 2.1";
