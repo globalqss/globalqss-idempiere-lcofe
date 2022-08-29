@@ -19,10 +19,12 @@ passCert = "mipripass"
 testSetId= "40e8ab1f-c024-46ff-b1a7-8c568f14efdc"
 
 
-Para ejecutar consta de 4 scripts:
+Para ejecutar consta de 5 scripts, a saber con su respectivo ejemplo:
 RequestGetStatus.php [clientId] [ambiente] [basename_output_file] [trackId]
-Ej:
 php RequestGetStatus.php 1000000 2 /tmp/ComprobantesFirmados/getStatus_face_f0830085359003b02376f 553bc48851ed5ba685ec46064ad608e5d16ed562a4d262904679882f49a6d6b2861e6298f8a9da3a232875cc177ba1a5
+
+RequestGetStatusZip.php [clientId] [ambiente] [basename_output_file] [trackId]
+php RequestGetStatusZip.php 1000000 2 /tmp/ComprobantesFirmados/getStatusZip_face_f0830085359003b02376f 077519e7-d527-4738-80db-baa362bfc7e6
 
 RequestSendBillAsync.php [clientId] [ambiente] [basename_output_file] [zip_file]
 php RequestSendBillAsync.php 1000000 2 /tmp/ComprobantesFirmados/sendBillAsync_face_f0830085359003b02376f /tmp/ComprobantesFirmados/ws_f0830085359003b02376d.zip 
