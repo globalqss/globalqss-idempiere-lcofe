@@ -857,8 +857,10 @@ public class DIAN21_FE_UtilsXML {
 							// D AN Max 150 Nombre del adquiriente
 							addHeaderElement(mmDoc, "cbc:MiddleName", bp.get_Value("FirstName2") != null ? bp.get_ValueAsString("FirstName2") : "", atts);
 							// D AN Max 150 Primer y segundo Apellido
-							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
-									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
+							String familyName = bp.get_ValueAsString("LastName1");
+							if (bp.get_Value("LastName2") != null)
+								familyName += " " + bp.get_ValueAsString("LastName2");
+							addHeaderElement(mmDoc, "cbc:FamilyName", familyName, atts);
 						mmDoc.endElement("","","cac:Person");
 					}
 					mmDoc.startElement("","","cac:PhysicalLocation", atts);
@@ -1724,8 +1726,10 @@ public class DIAN21_FE_UtilsXML {
 							// D AN Max 150 Nombre del adquiriente
 							addHeaderElement(mmDoc, "cbc:MiddleName", bp.get_Value("FirstName2") != null ? bp.get_ValueAsString("FirstName2") : "", atts);
 							// D AN Max 150 Primer y segundo Apellido
-							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
-									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
+							String familyName = bp.get_ValueAsString("LastName1");
+							if (bp.get_Value("LastName2") != null)
+								familyName += " " + bp.get_ValueAsString("LastName2");
+							addHeaderElement(mmDoc, "cbc:FamilyName", familyName, atts);
 						mmDoc.endElement("","","cac:Person");
 					}
 					mmDoc.startElement("","","cac:PhysicalLocation", atts);
@@ -1828,8 +1832,10 @@ public class DIAN21_FE_UtilsXML {
 							// D AN Max 150 Nombre del adquiriente
 							addHeaderElement(mmDoc, "cbc:MiddleName", bp.get_Value("FirstName2") != null ? bp.get_ValueAsString("FirstName2") : "", atts);
 							// D AN Max 150 Primer y segundo Apellido
-							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
-									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
+							String familyName = bp.get_ValueAsString("LastName1");
+							if (bp.get_Value("LastName2") != null)
+								familyName += " " + bp.get_ValueAsString("LastName2");
+							addHeaderElement(mmDoc, "cbc:FamilyName", familyName, atts);
 						mmDoc.endElement("","","cac:Person");
 					}
 					if (ua.getEMail() != null) {
@@ -2588,8 +2594,10 @@ public class DIAN21_FE_UtilsXML {
 							// D AN Max 150 Nombre del adquiriente
 							addHeaderElement(mmDoc, "cbc:MiddleName", bp.get_Value("FirstName2") != null ? bp.get_ValueAsString("FirstName2") : "", atts);
 							// D AN Max 150 Primer y segundo Apellido
-							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
-									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
+							String familyName = bp.get_ValueAsString("LastName1");
+							if (bp.get_Value("LastName2") != null)
+								familyName += " " + bp.get_ValueAsString("LastName2");
+							addHeaderElement(mmDoc, "cbc:FamilyName", familyName, atts);
 						mmDoc.endElement("","","cac:Person");
 					}
 					mmDoc.startElement("","","cac:PhysicalLocation", atts);
@@ -2692,8 +2700,10 @@ public class DIAN21_FE_UtilsXML {
 							// D AN Max 150 Nombre del adquiriente
 							addHeaderElement(mmDoc, "cbc:MiddleName", bp.get_Value("FirstName2") != null ? bp.get_ValueAsString("FirstName2") : "", atts);
 							// D AN Max 150 Primer y segundo Apellido
-							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
-									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
+							String familyName = bp.get_ValueAsString("LastName1");
+							if (bp.get_Value("LastName2") != null)
+								familyName += " " + bp.get_ValueAsString("LastName2");
+							addHeaderElement(mmDoc, "cbc:FamilyName", familyName, atts);
 						mmDoc.endElement("","","cac:Person");
 					}
 					if (ua.getEMail() != null) {
@@ -3295,8 +3305,10 @@ public class DIAN21_FE_UtilsXML {
 							// D AN Max 150 Nombre del adquiriente
 							addHeaderElement(mmDoc, "cbc:MiddleName", bp.get_Value("FirstName2") != null ? bp.get_ValueAsString("FirstName2") : "", atts);
 							// D AN Max 150 Primer y segundo Apellido
-							addHeaderElement(mmDoc, "cbc:FamilyName", bp.get_ValueAsString("LastName1")
-									+ bp.get_Value("LastName2") != null ? " " + bp.get_ValueAsString("LastName2") : "", atts);
+							String familyName = bp.get_ValueAsString("LastName1");
+							if (bp.get_Value("LastName2") != null)
+								familyName += " " + bp.get_ValueAsString("LastName2");
+							addHeaderElement(mmDoc, "cbc:FamilyName", familyName, atts);
 						mmDoc.endElement("","","cac:Person");
 					} */
 					mmDoc.startElement("","","cac:PhysicalLocation", atts);
