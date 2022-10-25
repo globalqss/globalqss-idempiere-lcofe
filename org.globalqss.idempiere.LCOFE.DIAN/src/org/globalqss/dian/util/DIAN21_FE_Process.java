@@ -81,7 +81,7 @@ public class DIAN21_FE_Process implements ILCO_FE_ProcessInvoice {
 	}
 
 	@Override
-	public String getStatus(MLCOFEAuthorization auth) {
+	public String getStatus(MLCOFEAuthorization auth, boolean force) {
 		String msg;
 		String pathScripts = MSysConfig.getValue("QSSLCO_FE_Path_PHP_Scripts", "", Env.getAD_Client_ID(Env.getCtx()));
 		boolean usePHP = !Util.isEmpty(pathScripts);
@@ -89,7 +89,7 @@ public class DIAN21_FE_Process implements ILCO_FE_ProcessInvoice {
 		boolean useStatusScript = !Util.isEmpty(statusScript);
 		if (usePHP && useStatusScript) {
 			DIAN21_FE_UtilsWS_PHP utilGetStatus = new DIAN21_FE_UtilsWS_PHP();
-			msg = utilGetStatus.getStatus(auth);
+			msg = utilGetStatus.getStatus(auth, force);
 		} else {
 			throw new AdempiereException("not implemented");
 			//DIAN21_FE_UtilsWS utilGetStatus = new DIAN21_FE_UtilsWS();

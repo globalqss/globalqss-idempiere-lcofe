@@ -96,12 +96,12 @@ public class DIAN21_FE_UtilsWS_PHP {
 		return msg;
 	}
 
-	public String getStatus(X_LCO_FE_Authorization auth) {
+	public String getStatus(X_LCO_FE_Authorization auth, boolean force) {
 		
 		String msg = null;
 		
-		if (auth.isProcessed())
-			return null;
+		if (auth.isProcessed() && !force)
+			return "@DocProcessed@";
 
 		String pathScripts = MSysConfig.getValue("QSSLCO_FE_Path_PHP_Scripts", "", Env.getAD_Client_ID(Env.getCtx()));
 		if (Util.isEmpty(pathScripts)) {

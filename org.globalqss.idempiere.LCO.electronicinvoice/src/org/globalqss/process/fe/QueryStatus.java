@@ -23,12 +23,15 @@
 **********************************************************************/
 package org.globalqss.process.fe;
 
+import java.util.logging.Level;
+
 import org.adempiere.base.Service;
 import org.adempiere.base.ServiceQuery;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_Invoice;
+import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -39,8 +42,23 @@ public class QueryStatus extends SvrProcess {
 
 	private int idLCO_FE_Authorization;
 
+	/* Force */
+	private boolean p_LCO_FE_Force = false;
+
 	@Override
 	protected void prepare() {
+		for (ProcessInfoParameter para : getParameter()) {
+			String name = para.getParameterName();
+			switch (name) {
+			case "LCO_FE_Force":
+				p_LCO_FE_Force = para.getParameterAsBoolean();
+				break;
+			default:
+				if (log.isLoggable(Level.INFO))
+					log.log(Level.INFO, "Custom Parameter: " + name + "=" + para.getInfo());
+				break;
+			}
+		}
 		idLCO_FE_Authorization = getRecord_ID();
 	}
 
@@ -54,7 +72,7 @@ public class QueryStatus extends SvrProcess {
 			throw new AdempiereException("No ILCO_FE_ProcessInvoice provider found for technological provider " + techProvider);
 
 		MLCOFEAuthorization auth = new MLCOFEAuthorization(getCtx(), idLCO_FE_Authorization, get_TrxName());
-		String msg = custom.getStatus(auth);
+		String msg = custom.getStatus(auth, p_LCO_FE_Force);
 		if (auth.isProcessed() && auth.getAD_Table_ID() == MInvoice.Table_ID) {
 			// update via SQL instead of MInvoice to avoid the validation
 			X_C_Invoice invoice = new X_C_Invoice(Env.getCtx(), auth.getRecord_ID(), auth.get_TrxName());

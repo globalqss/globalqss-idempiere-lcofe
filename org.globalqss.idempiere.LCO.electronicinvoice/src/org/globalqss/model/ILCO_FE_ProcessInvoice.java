@@ -42,7 +42,7 @@ public interface ILCO_FE_ProcessInvoice {
 	public String sendFile(LCO_FE_MInvoice invoice);
 
 	// This method inquire for the status of an authorization record, returning a String with the message
-	public String getStatus(MLCOFEAuthorization auth);
+	public String getStatus(MLCOFEAuthorization auth, boolean force);
 
 	// This method inquire for the status of an authorization record, returning a String with the message
 	public String getNumberingRange(MOrg org);
