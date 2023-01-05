@@ -406,7 +406,7 @@ public class DIAN21_FE_UtilsXML {
 			invoice.set_FE_FileToSign(m_File_Name);
 			invoice.set_ValueOfColumn("LCO_FE_Authorization_ID", a.getLCO_FE_Authorization_ID());
 			invoice.setDateInvoiced((Timestamp)invoice.get_Value("LCO_FE_DateTrx"));
-			invoice.setDateAcct((Timestamp)invoice.get_Value("LCO_FE_DateTrx"));
+			// invoice.setDateAcct((Timestamp)invoice.get_Value("LCO_FE_DateTrx"));
 			invoice.saveEx();
 
 		}
