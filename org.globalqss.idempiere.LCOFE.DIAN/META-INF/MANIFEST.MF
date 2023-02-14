@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Localization Colombia - Electronic Invoice - DIAN
 Bundle-SymbolicName: org.globalqss.idempiere.LCOFE.DIAN;singleton:=true
-Bundle-Version: 9.0.0.qualifier
+Bundle-Version: 10.0.0.qualifier
 Bundle-Activator: org.adempiere.plugin.utils.Incremental2PackActivator
 Bundle-Vendor: GlobalQSS
-Require-Bundle: org.adempiere.base;bundle-version="9.0.0",
- org.adempiere.plugin.utils;bundle-version="9.0.0",
- org.globalqss.idempiere.LCO.detailednames;bundle-version="9.0.0",
- org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="9.0.0",
- org.globalqss.idempiere.LCO.electronicinvoice;bundle-version="9.0.0",
+Require-Bundle: org.adempiere.base;bundle-version="10.0.0",
+ org.adempiere.plugin.utils;bundle-version="10.0.0",
+ org.globalqss.idempiere.LCO.detailednames;bundle-version="10.0.0",
+ org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="10.0.0",
+ org.globalqss.idempiere.LCO.electronicinvoice;bundle-version="10.0.0",
  org.apache.santuario.xmlsec;bundle-version="2.2.1",
  org.glassfish.hk2.external.aopalliance-repackaged;bundle-version="2.6.1",
  bcprov;bundle-version="1.69.0",
