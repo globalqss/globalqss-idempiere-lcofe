@@ -19,9 +19,9 @@
 		<repository location="file:../iDempiere10/org.idempiere.p2/target/repository"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-                <unit id="org.globalqss.idempiere.LCO.withholdings" version="10.0.0.202302132346"/>
-                <unit id="org.globalqss.idempiere.LCO.invoicenumbercontrol" version="10.0.0.202302132346"/>
-                <unit id="org.globalqss.idempiere.LCO.detailednames" version="10.0.0.202302132346"/>
+                <unit id="org.globalqss.idempiere.LCO.withholdings"/>
+                <unit id="org.globalqss.idempiere.LCO.invoicenumbercontrol"/>
+                <unit id="org.globalqss.idempiere.LCO.detailednames"/>
 		<repository location="file:../globalqss-iDempiere-LCO/org.globalqss.idempiere.LCO.p2.site/target/repository"/>
 	</location>
 	<location includeSource="true" missingManifest="generate" type="Maven">
