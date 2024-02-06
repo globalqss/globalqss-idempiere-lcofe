@@ -219,6 +219,7 @@ public class LCO_FE_Utils {
 			+ "LEFT JOIN M_Product_Category pc ON pc.M_Product_Category_ID = p.M_Product_Category_ID "
 			+ "LEFT JOIN C_Charge ch ON il.C_Charge_ID = ch.C_Charge_ID "
 			+ "LEFT JOIN C_UOM um ON il.C_UOM_ID = um.C_UOM_ID "
+			+ "LEFT JOIN C_UOM_Trl umt ON il.C_UOM_ID = umt.C_UOM_ID AND umt.AD_Language=" + DB.TO_STRING(Env.getAD_Language(Env.getCtx())) + " "
 			+ "LEFT JOIN C_Currency cc ON i.C_Currency_ID = cc.C_Currency_ID "
 			+ "LEFT JOIN LCO_FE_ProductSchemeList psl ON p.LCO_FE_ProductSchemeList_ID = psl.LCO_FE_ProductSchemeList_ID "
 			+ "LEFT JOIN LCO_FE_ProductSchemeList pslpa ON p.LCO_FE_ProductSchemeListPA_ID = pslpa.LCO_FE_ProductSchemeList_ID "
