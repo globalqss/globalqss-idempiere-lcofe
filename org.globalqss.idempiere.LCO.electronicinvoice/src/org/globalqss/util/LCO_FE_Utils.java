@@ -189,7 +189,7 @@ public class LCO_FE_Utils {
 
 	public static String SQL_ITEMS =
 			"SELECT il.line AS Consecutivo, CASE WHEN i.IsSOTrx = 'Y' THEN 'false' ELSE 'true' END AS EsGratis "	// 1, 2
-			+ ", ilt.qtyinvoiced, um.x12de355 AS UnidadMedida "		// 3, 4
+			+ ", ilt.qtyinvoiced, COALESCE(umt.UOMSymbol, um.UOMSymbol) AS UnidadMedida "		// 3, 4
 			+ ", ilt.linenetamt AS CostoTotal, cc.Iso_Code, ROUND(ilt.priceactual, cc.StdPrecision) AS PrecioUnitario, cc.Iso_Code "	// 5, 6, 7, 8
 			+ ", COALESCE( p.value, p.UPC) AS pidentificador, p.name || p.description AS pdescription "	// 9, 10
 			+ ", COALESCE(ilt.name, p.name) || ' ' || COALESCE(ilt.description, '') AS ildescription "	// 11
