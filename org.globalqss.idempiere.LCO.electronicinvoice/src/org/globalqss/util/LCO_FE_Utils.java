@@ -189,7 +189,7 @@ public class LCO_FE_Utils {
 
 	public static String SQL_ITEMS =
 			"SELECT il.line AS Consecutivo, CASE WHEN i.IsSOTrx = 'Y' THEN 'false' ELSE 'true' END AS EsGratis "	// 1, 2
-			+ ", ilt.qtyinvoiced, um.x12de355 AS UnidadMedida "		// 3, 4
+			+ ", ilt.qtyinvoiced, COALESCE(umt.UOMSymbol, um.UOMSymbol) AS UnidadMedida "		// 3, 4
 			+ ", ilt.linenetamt AS CostoTotal, cc.Iso_Code, ROUND(ilt.priceactual, cc.StdPrecision) AS PrecioUnitario, cc.Iso_Code "	// 5, 6, 7, 8
 			+ ", COALESCE( p.value, p.UPC) AS pidentificador, p.name || p.description AS pdescription "	// 9, 10
 			+ ", COALESCE(ilt.name, p.name) || ' ' || COALESCE(ilt.description, '') AS ildescription "	// 11
@@ -219,6 +219,7 @@ public class LCO_FE_Utils {
 			+ "LEFT JOIN M_Product_Category pc ON pc.M_Product_Category_ID = p.M_Product_Category_ID "
 			+ "LEFT JOIN C_Charge ch ON il.C_Charge_ID = ch.C_Charge_ID "
 			+ "LEFT JOIN C_UOM um ON il.C_UOM_ID = um.C_UOM_ID "
+			+ "LEFT JOIN C_UOM_Trl umt ON il.C_UOM_ID = umt.C_UOM_ID AND umt.AD_Language=" + DB.TO_STRING(Env.getAD_Language(Env.getCtx())) + " "
 			+ "LEFT JOIN C_Currency cc ON i.C_Currency_ID = cc.C_Currency_ID "
 			+ "LEFT JOIN LCO_FE_ProductSchemeList psl ON p.LCO_FE_ProductSchemeList_ID = psl.LCO_FE_ProductSchemeList_ID "
 			+ "LEFT JOIN LCO_FE_ProductSchemeList pslpa ON p.LCO_FE_ProductSchemeListPA_ID = pslpa.LCO_FE_ProductSchemeList_ID "
