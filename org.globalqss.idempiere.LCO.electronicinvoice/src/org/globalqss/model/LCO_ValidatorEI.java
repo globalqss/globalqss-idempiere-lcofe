@@ -213,7 +213,8 @@ public class LCO_ValidatorEI extends AbstractEventHandler
 						invoice.set_ValueOfColumn("LCO_FE_IsExport", dt.get_ValueAsBoolean("LCO_FE_IsExport"));
 						invoice.set_ValueOfColumn("LCO_FE_IsUseContingency", dt.get_ValueAsBoolean("LCO_FE_IsUseContingency"));
 						if (dianshortdoctype.equals(LCO_FE_Utils.TIPO_COMPROBANTE_NC)
-								|| dianshortdoctype.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ND)) {
+								|| dianshortdoctype.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ND)
+								|| dianshortdoctype.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ADS)) {
 							int ref_invoice_id = invoice.getRelatedInvoice_ID();
 							if (ref_invoice_id == 0) {
 								ref_invoice_id = LCO_FE_Utils.getRefInvoiceID(invoice);
@@ -1008,6 +1009,7 @@ public class LCO_ValidatorEI extends AbstractEventHandler
 				)
 				msg = lcofeinv.afterCompleteLCOFE();
 		} else if (   LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
+					|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype)
 				)
 				msg = lcofeinv.afterCompleteLCOFE();
 		else

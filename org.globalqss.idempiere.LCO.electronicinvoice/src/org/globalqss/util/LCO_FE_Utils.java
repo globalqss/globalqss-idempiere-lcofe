@@ -89,7 +89,7 @@ public class LCO_FE_Utils {
 	public static String TIPO_COMPROBANTE_ND = "ND";
 	public static String TIPO_COMPROBANTE_NC = "NC";
 	public static String TIPO_COMPROBANTE_SOPORTE = "DS";
-	public static String TIPO_COMPROBANTE_AJUSTE_AC = "AC";
+	public static String TIPO_COMPROBANTE_ADS = "ADS";
 	public static String TIPO_COMPROBANTE_FACTURA = "INVOIC";
 	public static String TIPO_COMPROBANTE_CONTINGENCIA = "INVCON";
 	public static String TIPO_COMPROBANTE_EXPORTACION = "INVEXP";
