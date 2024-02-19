@@ -203,7 +203,7 @@ public class DIAN21_FE_UtilsXML {
 			X_LCO_FE_DIAN_Format f = new X_LCO_FE_DIAN_Format (invoice.getCtx(), m_lco_fe_dian_format_id, null);
 			MSequence seqxml = null;
 			if ( m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE)
-				|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC) ) {
+				|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ADS) ) {
 				seqxml = new MSequence(invoice.getCtx(), f.getAD_Sequence_ID(), invoice.get_TrxName());
 				m_seqEnvio = MSequence.getDocumentNoFromSeq(seqxml, invoice.get_TrxName(), invoice);
 				m_seqEnvio = m_seqEnvio.replace(m_Prefix, "");
@@ -281,7 +281,7 @@ public class DIAN21_FE_UtilsXML {
 					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_NC)
 					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ND)
 					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE)
-					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC)) {
+					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ADS)) {
 				m_CUFE = 
 					generateCufe(
 						invoice.get_TrxName(),
@@ -310,7 +310,7 @@ public class DIAN21_FE_UtilsXML {
 					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_NC)
 					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ND)
 					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE)
-					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC)) {
+					|| m_coddoc.equals(LCO_FE_Utils.TIPO_COMPROBANTE_ADS)) {
 				m_QR =
 					generateQR(
 							invoice.get_TrxName(),
@@ -4057,7 +4057,7 @@ public class DIAN21_FE_UtilsXML {
 		String cufe_sha = "";
 		
 		boolean isDocSoporte = (LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
-				|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype));
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype));
 		
 		List<List<Object>> rows = DB.getSQLArrayObjectsEx(trx, LCO_FE_Utils.SQL_TAX_INFO, c_invoice_id, "%", c_invoice_id, "%");
 		if (rows != null) {
@@ -4110,7 +4110,7 @@ public class DIAN21_FE_UtilsXML {
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_NC.equals(dianshortdoctype)
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_ND.equals(dianshortdoctype)
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
-				|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype) ) {
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype) ) {
 			if (!LCO_FE_Utils.UBL_VERSION_21.equals(m_UBLVersionNo))
 				cufedata.append(taxcodedian);
 			cufedata.append(!isDocSoporte ? taxidadq : taxidofe);
@@ -4119,14 +4119,14 @@ public class DIAN21_FE_UtilsXML {
 			&& (   LCO_FE_Utils.TIPO_COMPROBANTE_FACTURA.equals(dianshortdoctype)
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_EXPORTACION.equals(dianshortdoctype)
 				|| LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
-				|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype))) {
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype))) {
 			cufedata.append(techkey);
 		} else {
 			if (LCO_FE_Utils.UBL_VERSION_21.equals(m_UBLVersionNo)) {
 				if (   LCO_FE_Utils.TIPO_COMPROBANTE_NC.equals(dianshortdoctype)
 					|| LCO_FE_Utils.TIPO_COMPROBANTE_ND.equals(dianshortdoctype)
 					|| LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
-					|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype))
+					|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype))
 					cufedata.append(techkey);  // Software PIN
 			} else {
 				if (m_UseContingency || LCO_FE_Utils.TIPO_COMPROBANTE_CONTINGENCIA.equals(dianshortdoctype))
@@ -4285,7 +4285,7 @@ public class DIAN21_FE_UtilsXML {
 		BigDecimal importeotros = Env.ZERO;
 		
 		boolean isDocSoporte = (LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype)
-				|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype));
+				|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype));
 
 		List<List<Object>> rows = DB.getSQLArrayObjectsEx(trx, LCO_FE_Utils.SQL_TAX_INFO, c_invoice_id, "%", c_invoice_id, "%");
 		if (rows != null) {
@@ -4334,7 +4334,7 @@ public class DIAN21_FE_UtilsXML {
 	public String constructFileName(String taxid, String repdoctype, Boolean hex) {
 		
 		boolean isDocSoporte = (LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(m_coddoc)
-								|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(m_coddoc));
+								|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(m_coddoc));
 		
 		String docnoformat = "%010d";
 		if (hex)
@@ -4372,7 +4372,7 @@ public class DIAN21_FE_UtilsXML {
 			xmlns = "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2";
 			xsi_schemalocation = "http://www.dian.gov.co/contratos/facturaelectronica/v1 ../xsd/DIAN_UBL.xsd urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2 ../../ubl2/common/UnqualifiedDataTypeSchemaModule-2.0.xsd urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2 ../../ubl2/common/UBL-QualifiedDatatypes-2.0.xsd";
 		} else if (LCO_FE_Utils.TIPO_COMPROBANTE_NC.equals(dianshortdoctype)
-					|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype)) {
+					|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype)) {
 			xmlns = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2";
 			xsi_schemalocation = "http://www.dian.gov.co/contratos/facturaelectronica/v1 http://www.dian.gov.co/micrositios/fac_electronica/documentos/XSD/r0/DIAN_UBL.xsd urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2 http://www.dian.gov.co/micrositios/fac_electronica/documentos/common/UnqualifiedDataTypeSchemaModule-2.0.xsd urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2 http://www.dian.gov.co/micrositios/fac_electronica/documentos/common/UBL-QualifiedDatatypes-2.0.xsd";
 		} else if (LCO_FE_Utils.TIPO_COMPROBANTE_ND.equals(dianshortdoctype)) {
@@ -4387,7 +4387,7 @@ public class DIAN21_FE_UtilsXML {
 					|| LCO_FE_Utils.TIPO_COMPROBANTE_SOPORTE.equals(dianshortdoctype))
 				xsi_schemalocation = "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd";
 			else if (LCO_FE_Utils.TIPO_COMPROBANTE_NC.equals(dianshortdoctype)
-					|| LCO_FE_Utils.TIPO_COMPROBANTE_AJUSTE_AC.equals(dianshortdoctype))
+					|| LCO_FE_Utils.TIPO_COMPROBANTE_ADS.equals(dianshortdoctype))
 				// xsi_schemalocation = "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-CreditNote-2.1.xsd";
 				xsi_schemalocation = "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd";
 			else if (LCO_FE_Utils.TIPO_COMPROBANTE_ND.equals(dianshortdoctype))
