@@ -2,18 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Localization Colombia - Electronic Invoice - DIAN
 Bundle-SymbolicName: org.globalqss.idempiere.LCOFE.DIAN;singleton:=true
-Bundle-Version: 10.0.0.qualifier
+Bundle-Version: 11.0.0.qualifier
 Bundle-Activator: org.adempiere.plugin.utils.Incremental2PackActivator
 Bundle-Vendor: GlobalQSS
-Require-Bundle: org.adempiere.base;bundle-version="10.0.0",
- org.adempiere.plugin.utils;bundle-version="10.0.0",
- org.globalqss.idempiere.LCO.detailednames;bundle-version="10.0.0",
- org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="10.0.0",
- org.globalqss.idempiere.LCO.electronicinvoice;bundle-version="10.0.0",
+Require-Bundle: org.adempiere.base;bundle-version="11.0.0",
+ org.adempiere.plugin.utils;bundle-version="11.0.0",
+ org.globalqss.idempiere.LCO.detailednames;bundle-version="11.0.0",
+ org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="11.0.0",
+ org.globalqss.idempiere.LCO.electronicinvoice;bundle-version="11.0.0",
  org.apache.santuario.xmlsec;bundle-version="2.2.1",
  org.glassfish.hk2.external.aopalliance-repackaged;bundle-version="2.6.1",
- bcprov;bundle-version="1.69.0",
- bcpkix;bundle-version="1.69.0",
+ bcprov;bundle-version="1.72.0",
+ bcpkix;bundle-version="1.72.0",
  jakarta.xml.bind-api;bundle-version="2.3.3",
  com.google.guava;bundle-version="30.1.1",
  com.google.guava.failureaccess;bundle-version="1.0.1",
@@ -26,5 +26,4 @@ Bundle-ClassPath: .,
  local_lib/javax.inject-1.jar,
  local_lib/xades4j-1.5.1.jar
 Automatic-Module-Name: org.globalqss.idempiere.LCO.electronicinvoice
-Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=11))"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
