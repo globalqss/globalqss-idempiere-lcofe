@@ -316,7 +316,7 @@ public class DIAN21_FE_UtilsSign {
 		@Override
 		public X509Certificate selectCertificate(List<X509Certificate> availableCertificates) {
 			X509Certificate certificate = availableCertificates.get(0);
-			System.out.println("Usando certificado: " + certificate.getIssuerDN().getName());
+			System.out.println("Usando certificado: " + certificate.getIssuerX500Principal().getName());
 			return certificate;
 		}
 	}

@@ -7,8 +7,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="local_lib/xades4j-1.5.1.jar"/>
-	<classpathentry kind="lib" path="local_lib/javax.inject-1.jar"/>
-	<classpathentry kind="lib" path="local_lib/guice-4.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/xades4j.jar"/>
+	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
+	<classpathentry kind="lib" path="lib/guice.jar"/>
+	<classpathentry kind="lib" path="lib/xmlsec.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

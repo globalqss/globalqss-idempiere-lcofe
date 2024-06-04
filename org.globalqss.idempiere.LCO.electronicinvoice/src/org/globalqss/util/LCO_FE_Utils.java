@@ -498,7 +498,7 @@ public class LCO_FE_Utils {
 			MAttachment attach =  MAttachment.get(ctx, ad_table_id, sri_authorization_id, trxName);
 			// No se encontro archivo previo
 			if (attach == null ) {
-				attach = new  MAttachment(ctx, ad_table_id , sri_authorization_id, trxName);
+				attach = new  MAttachment(ctx, ad_table_id , sri_authorization_id, null, trxName);
 				attach.addEntry(new File (file_name));
 				attach.saveEx();
 
@@ -546,7 +546,7 @@ public class LCO_FE_Utils {
 			int  ad_table_id = org.get_Table_ID();
 			MAttachment attach =  MAttachment.get(org.getCtx(), ad_table_id, org.getAD_Org_ID(), org.get_TrxName());
 			if (attach == null )
-				attach = new  MAttachment(org.getCtx(), ad_table_id , org.getAD_Org_ID(), org.get_TrxName());
+				attach = new  MAttachment(org.getCtx(), ad_table_id , org.getAD_Org_ID(), null, org.get_TrxName());
 			attach.addEntry(new File (file_name));
 			attach.saveEx();
 		} catch (Exception e) {

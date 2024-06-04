@@ -10,7 +10,6 @@ Require-Bundle: org.adempiere.base;bundle-version="11.0.0",
  org.globalqss.idempiere.LCO.detailednames;bundle-version="11.0.0",
  org.globalqss.idempiere.LCO.invoicenumbercontrol;bundle-version="11.0.0",
  org.globalqss.idempiere.LCO.electronicinvoice;bundle-version="11.0.0",
- org.apache.santuario.xmlsec;bundle-version="2.2.1",
  org.glassfish.hk2.external.aopalliance-repackaged;bundle-version="2.6.1",
  bcprov;bundle-version="1.72.0",
  bcpkix;bundle-version="1.72.0",
@@ -22,8 +21,9 @@ Service-Component: OSGI-INF/*.xml
 Import-Package: org.osgi.service.event
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- local_lib/guice-4.2.2.jar,
- local_lib/javax.inject-1.jar,
- local_lib/xades4j-1.5.1.jar
+ lib/guice.jar,
+ lib/javax.inject.jar,
+ lib/xades4j.jar,
+ lib/xmlsec.jar
 Automatic-Module-Name: org.globalqss.idempiere.LCO.electronicinvoice
 Bundle-RequiredExecutionEnvironment: JavaSE-17

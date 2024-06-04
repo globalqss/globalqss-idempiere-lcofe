@@ -2,7 +2,7 @@
 <feature
       id="org.globalqss.idempiere.LCOFE.feature"
       label="LCOFE-feature"
-      version="10.0.0.qualifier"
+      version="11.0.0.qualifier"
       provider-name="GlobalQSS">
 
    <description>
@@ -16,13 +16,6 @@
    <license url="">
       GPLv2
    </license>
-
-   <plugin
-         id="org.apache.santuario.xmlsec"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.globalqss.idempiere.LCO.electronicinvoice"
