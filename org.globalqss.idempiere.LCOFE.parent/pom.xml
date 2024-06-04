@@ -18,7 +18,7 @@
 		<lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
 		<!-- default value of properties, use when run without profile -->
 		<idempiere.core.repository.url>file:/${basedir}/../../iDempiere11/org.idempiere.p2/target/repository</idempiere.core.repository.url>
-		<globalqss-iDempiere-LCO.repository.url>file:/${basedir}/../../globalqss-iDempiere-LCO/org.globalqss.idempiere.LCO.p2/target/repository</globalqss-iDempiere-LCO.repository.url>
+		<globalqss-iDempiere-LCO.repository.url>file:/${basedir}/../../globalqss-iDempiere-LCO/org.globalqss.idempiere.LCO.p2.site/target/repository</globalqss-iDempiere-LCO.repository.url>
 	</properties>
 
 	<build>

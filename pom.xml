@@ -19,6 +19,6 @@ mvn clean verify
 		<module>org.globalqss.idempiere.LCO.electronicinvoice</module>
 		<module>org.globalqss.idempiere.LCOFE.DIAN</module>
 		<module>org.globalqss.idempiere.LCOFE-feature</module>
-		<module>org.globalqss.idempiere.LCOFE.p2</module>
+		<module>org.globalqss.idempiere.LCOFE.p2.site</module>
 	</modules>
 </project>
