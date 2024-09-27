@@ -111,6 +111,7 @@ public class LCO_FE_Utils {
 	public static String UBL_VERSION_21 = "UBL 2.1";
 
 	public static String TIPO_IDENTIFICACION_EXTRANJERO = "42";
+	public static String TIPO_IDENTIFICACION_EXTRANJERO_SIN_IDENTIFICAR = "43";
 
 	public static String PRODUCT_SCHEME_PAID = "020";	// Partidas Arancelarias
 

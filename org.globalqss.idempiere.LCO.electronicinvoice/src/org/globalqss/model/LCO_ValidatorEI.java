@@ -780,7 +780,8 @@ public class LCO_ValidatorEI extends AbstractEventHandler
 						+ Msg.getElement(Env.getCtx(), "LCO_FE_TributaryType_ID"));
 
 			if ( tpt.get_ValueAsString("DianTaxPayerCode").equals(LCO_FE_Utils.TIPO_PERSONA_JURIDICA)
-					&& !tt.get_Value("LCO_TaxCodeDian").equals(LCO_FE_Utils.TIPO_IDENTIFICACION_EXTRANJERO) ) {
+					&& !tt.get_Value("LCO_TaxCodeDian").equals(LCO_FE_Utils.TIPO_IDENTIFICACION_EXTRANJERO)
+					&& !tt.get_Value("LCO_TaxCodeDian").equals(LCO_FE_Utils.TIPO_IDENTIFICACION_EXTRANJERO_SIN_IDENTIFICAR) ) {
 				if (bpartner.get_ValueAsString("LCO_FE_CCMatriculaMercantilNo").equals(""))
 					msg = msg + Msg.translate(Env.getCtx(), "FillMandatory") + " "
 							+ Msg.getElement(Env.getCtx(), "LCO_FE_CCMatriculaMercantilNo");
